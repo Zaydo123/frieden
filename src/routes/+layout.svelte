@@ -1,44 +1,60 @@
-<link rel="stylesheet" href="/global.css">
 <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 
 <script>
+    import "../app.css";
+    
+    let isMenuOpen = false;
 
-	$: outerWidth = 0
-	$: innerWidth = 0
-	$: outerHeight = 0
-	$: innerHeight = 0
+    function toggleMenu() {
+        isMenuOpen = !isMenuOpen;
+    }
 
-    const mobileWidth = 768;
-
+    $: outerWidth = 0;
+    $: innerWidth = 0;
+    $: outerHeight = 0;
+    $: innerHeight =  0;
+    const mobileWidth = 900;
 </script>
 
 <svelte:window bind:outerWidth bind:innerWidth bind:outerHeight bind:innerHeight />
 
-
-
-
-
-<div class="nav-header">
-    <div class="align-left">
-        <a href="/" style="display: flex; flex-direction: row; align-items: center;">
-            <img id="logo" src="/frieden.svg" alt="Logo" width="50" height="50">
-            <h1>Frieden Foundation</h1>
-        </a>
+<div class="nav-container {isMenuOpen ? 'is-menu-open' : ''}">
+    <div class="nav-header">
+        <div class="align-left">
+            <a href="/" style="display: flex; flex-direction: row; align-items: center;">
+                <img id="logo" src="/frieden.svg" alt="Logo" width="50" height="50">
+                <h1>Frieden Foundation</h1>
+            </a>
+        </div>
+        <div class="align-right">
+            {#if innerWidth > mobileWidth}
+            <a href="#about">About</a>
+            <a href="/page">Contact</a>
+            <a href="/page">FAQ</a>
+            <a href="/page">Events</a>
+            <a href="/page">Donate</a>
+            <a href="/page">Volunteer</a>
+            {:else}
+            <button class="menu-icon" on:click={toggleMenu}>
+                <img src="components/icons/menuIcon.svg" alt="Menu" width="50" height="50">
+            </button>
+            {/if}
+        </div>
     </div>
-    <div class="align-right">
-        {#if innerWidth > mobileWidth}
-        <a href="/page">About</a>
+
+    {#if innerWidth <= mobileWidth}
+    <div class="mobile-menu">
+        <a href="#about">About</a>
         <a href="/page">Contact</a>
         <a href="/page">FAQ</a>
-        {/if}
         <a href="/page">Events</a>
         <a href="/page">Donate</a>
         <a href="/page">Volunteer</a>
     </div>
+    {/if}
 </div>
 
-<style>
-
+<style lang="postcss">
     .nav-header {
         display: flex;
         flex-direction: row;
@@ -74,10 +90,20 @@
 
     #logo {
         border-radius: 50%;
+        margin-right: 1rem; 
     }
 
     .align-right {
         margin-left: auto;
+    }
+
+    .menu-icon {
+        filter: invert(1);
+        transform: scale(80%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
     }
 
     .align-left {
@@ -94,28 +120,46 @@
         padding: 0;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
         .nav-header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .nav-header a {
-            padding: 0.5rem 1rem;
-        }
-
-        .align-right {
-            margin-left: 0;
-        }
-
-        #logo {
-            margin-bottom: 1rem;
+            flex-direction: row;
+            align-items: center;
         }
     }
 
+    .mobile-menu {
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+        position: absolute;
+        top: 85px;
+        left: 0;
+        right: 0;
+        padding: 1rem;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        z-index: 999;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .is-menu-open .mobile-menu {
+        max-height: 500px;
+        opacity: 1;
+    }
+
+    .mobile-menu a {
+        font-family: 'Montserrat';
+        color: #000;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+    }
+
+    .mobile-menu a:hover {
+        background-color: #f0f0f0;
+    }
 </style>
 
+<slot/>
 
-
-
-<slot></slot>

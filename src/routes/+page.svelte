@@ -1,14 +1,12 @@
 <script>
     import Parallax from "./components/parallaxBanner/Parallax.svelte"
-    import News from "./components/news/News.svelte"
-
-    let newsItems = [
-        {"title":"Basketball Registration is Open!", "description": "no way! you must be lying, please click to see more."},
-
-    ]
-
+    import Row1 from "./components/row1/Row1.svelte"
+    import Row2 from "./components/row2/Row2.svelte"
+    import Contact from "./components/contact/Contact.svelte";
 
 </script>
 
 <Parallax />
-<News {newsItems} />
+<Row1 />
+<Row2 />
+<Contact />
