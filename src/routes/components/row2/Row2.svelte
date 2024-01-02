@@ -87,7 +87,7 @@
     @media (max-width: 900px) {
         main {
             height: max-content;
-            max-width: 360px;
+            max-width: 560px;
             width: 80%;
             padding: 1rem;
             margin-bottom: 50px;

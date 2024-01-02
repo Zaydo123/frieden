@@ -5,8 +5,9 @@
     import Contact from "./components/contact/Contact.svelte";
 
 </script>
-
-<Parallax />
+<div class="pt-16">
+    <Parallax />
+</div>
 <Row1 />
 <Row2 />
 <Contact />
