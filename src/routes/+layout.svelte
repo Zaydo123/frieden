@@ -1,11 +1,10 @@
 <script>
-    import "../app.css";
-    
+    import "../app.css";    
     let isMenuOpen = false;
-
     function toggleMenu() {
         isMenuOpen = !isMenuOpen;
     }
+
 
     $: outerWidth = 0;
     $: innerWidth = 0;
@@ -34,7 +33,7 @@
                 <a href="/page" class="nav-link">Volunteer</a>
             {:else}
                 <button class="menu-icon" on:click={toggleMenu}>
-                    <img src="components/icons/menuIcon.svg" alt="Menu" class="h-12 invert w-3/4">
+                    <img src="/components/icons/menuIcon.svg" alt="Menu" class="h-12 invert w-3/4">
                 </button>
             {/if}
             {#if innerWidth <= mobileWidth}

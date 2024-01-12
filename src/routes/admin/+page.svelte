@@ -1,12 +1,8 @@
 <script>
     import { invalidateAll } from '$app/navigation';
-    import { signIn, signOut, initialize } from 'svelte-google-auth/client';
+    import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
 
-    export let data;
-    onMount(() => {
-        initialize(data, invalidateAll);
-    });
 </script>
 
 <div class="flex flex-col items-center justify-center min-h-screen text-white">
@@ -23,11 +19,11 @@
             {#if data.auth.user?.name}
                 <h2 class="text-xl mb-4 font-bold">Hello, {data.auth.user.name}</h2>
                 <button class="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded shadow text-sm font-semibold mb-2" on:click={() => signOut()}>Sign Out</button>
-                <button class="px-4 py-2 bg-red-500 hover:bg-green-600 rounded shadow text-sm font-semibold" on:click={() => console.log('Continue')}>Continue</button>
+                <button class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded shadow text-sm font-semibold" on:click={() => goto('/admin/panel')}>Continue</button>
             {:else}
                 <h2 class="text-xl mb-4">Please Sign In</h2>
                 <button class="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded shadow text-sm font-semibold mb-2" on:click={() => signIn()}>Sign In</button>
-                <button class="px-4 py-2 bg-gray-500 hover:bg-gray-600 rounded shadow text-sm font-semibold" on:click={() => console.log('Home')}>Home</button>
+                <button class="px-4 py-2 bg-gray-500 hover:bg-gray-600 rounded shadow text-sm font-semibold" on:click={() => goto('/')}>Cancel</button>
             {/if}
         </div>
     </div>
