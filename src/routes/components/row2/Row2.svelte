@@ -27,19 +27,19 @@
 
 
 
-<main>
-    <h1>Meaningful Work</h1>
+<main class="text-white mx-auto mt-5 rounded p-8">
+    <h1 class="text-left mb-8 font-bold">Meaningful Work</h1>
     {#each rows as row}
-        <div class="row">
-            <div class="image">
-                <img src={row.image} alt={row.title} />
+        <div class="flex items-center mb-8 p-8 bg-dark-mode rounded">
+            <div class="mr-4">
+                <img src={row.image} alt={row.title} class="w-full h-full object-cover" />
             </div>
-            <div class="content">
-                <h2>{row.title}</h2>
+            <div>
+                <h2 class="text-2xl font-bold mb-4">{row.title}</h2>
                 {#if innerWidth < 900}
-                    <p>{row.mobileDescription}</p>
+                    <p class="mb-4">{row.mobileDescription}</p>
                 {:else}
-                <p>{row.description}</p>
+                <p class="mb-4">{row.description}</p>
                 {/if}
             </div>
         </div>
@@ -47,59 +47,17 @@
 </main>
 
 <style lang="postcss">
-    h1{
-        text-align: left;
-        margin-bottom: 2rem;
-        color:white;
-    }
-
-    main {
-        color:white;
-        margin: 0 auto;
-        margin-top: 20px;
-        border-radius: 4px;
-        padding: 2rem;
-    }
-
-    .row {
-        display: flex;
-        align-items: center;
-        margin-bottom: 2rem;
-        padding: 2rem;
-        background-color: #120f0f;
-    }
-
-    .image {
-        flex: 1;
-        margin-right: 1rem;
-    }
-
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .content {
-        flex: 2;
-    }
-
     @media (max-width: 900px) {
-        main {
-            height: max-content;
-            max-width: 560px;
-            width: 80%;
-            padding: 1rem;
-            margin-bottom: 50px;
-        }
-
-        .row {
+        .flex {
             flex-direction: column;
         }
-
-        .image {
+        .mr-4 {
             margin-bottom: 1rem;
+            margin-right: 0;
         }
     }
 
-</style>
+    .bg-dark-mode {
+        background-color: #1F1F1F;
+    }
+</style>    

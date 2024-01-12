@@ -8,6 +8,9 @@
 <div class="pt-16">
     <Parallax />
 </div>
-<Row1 />
+
+<div class="mb-16">
+    <Row1 />
+</div>
 <Row2 />
 <Contact />

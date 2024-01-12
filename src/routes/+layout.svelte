@@ -21,13 +21,13 @@
         <div class="align-left flex flex-row items-center">
             <a href="/" class="flex flex-row items-center">
                 <img id="logo" src="/frieden.svg" alt="Logo" class="w-12 h-12 rounded-full mr-4">
-                <h1 class="text-white text-xl font-medium m-0 p-0">Frieden Foundation</h1>
+                <h1 class="text-white text-xl font-bold m-0 p-0">Frieden Foundation</h1>
             </a>
         </div>
-        <div class="align-right ml-auto">
+        <div class="align-right ml-auto font-bold">
             {#if innerWidth > mobileWidth}
                 <a href="#about" class="nav-link">About</a>
-                <a href="/page" class="nav-link">Contact</a>
+                <a href="#contact-us" class="nav-link">Contact</a>
                 <a href="/page" class="nav-link">FAQ</a>
                 <a href="/page" class="nav-link">Events</a>
                 <a href="/page" class="nav-link">Donate</a>
@@ -40,7 +40,7 @@
             {#if innerWidth <= mobileWidth}
                 <div class={`mobile-menu absolute top-[85px] left-0 right-0 bg-black shadow-lg z-40 p-4 transition-all ease-in-out duration-300 ${isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                     <a href="#about" class="mobile-nav-link">About</a>
-                    <a href="/page" class="mobile-nav-link">Contact</a>
+                    <a href="#contact" class="mobile-nav-link">Contact</a>
                     <a href="/page" class="mobile-nav-link">FAQ</a>
                     <a href="/page" class="mobile-nav-link">Events</a>
                     <a href="/page" class="mobile-nav-link">Donate</a>
