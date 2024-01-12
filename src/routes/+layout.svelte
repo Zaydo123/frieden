@@ -1,8 +1,9 @@
 <script>
     import "../app.css";    
     let isMenuOpen = false;
-    function toggleMenu() {
-        isMenuOpen = !isMenuOpen;
+
+    function toggleMenu(forceClose = false) {
+        isMenuOpen = forceClose ? false : !isMenuOpen;
     }
 
 
@@ -12,6 +13,11 @@
     $: innerHeight = 0;
     const mobileWidth = 900;
 </script>
+
+<svelte:head>
+    <script src="/sdk/pocketbase.umd.js"></script>
+
+</svelte:head>
 
 <svelte:window bind:outerWidth bind:innerWidth bind:outerHeight bind:innerHeight />
 
@@ -28,22 +34,22 @@
                 <a href="#about" class="nav-link">About</a>
                 <a href="#contact-us" class="nav-link">Contact</a>
                 <a href="/page" class="nav-link">FAQ</a>
-                <a href="/page" class="nav-link">Events</a>
+                <a href="/events" class="nav-link">Events</a>
                 <a href="/page" class="nav-link">Donate</a>
                 <a href="/page" class="nav-link">Volunteer</a>
             {:else}
-                <button class="menu-icon" on:click={toggleMenu}>
+                <button class="menu-icon" on:click={() => toggleMenu()}>
                     <img src="/components/icons/menuIcon.svg" alt="Menu" class="h-12 invert w-3/4">
                 </button>
             {/if}
             {#if innerWidth <= mobileWidth}
-                <div class={`mobile-menu absolute top-[85px] left-0 right-0 bg-black shadow-lg z-40 p-4 transition-all ease-in-out duration-300 ${isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                    <a href="#about" class="mobile-nav-link">About</a>
-                    <a href="#contact" class="mobile-nav-link">Contact</a>
-                    <a href="/page" class="mobile-nav-link">FAQ</a>
-                    <a href="/page" class="mobile-nav-link">Events</a>
-                    <a href="/page" class="mobile-nav-link">Donate</a>
-                    <a href="/page" class="mobile-nav-link">Volunteer</a>
+                <div class={`mobile-menu absolute top-[85px] left-0 right-0 bg-black shadow-lg z-40 p-4 transition-all ease-in-out duration-500 ${isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                    <a href="#about" class="mobile-nav-link" on:click={() => toggleMenu(true)}>About</a>
+                    <a href="#contact" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Contact</a>
+                    <a href="/page" class="mobile-nav-link" on:click={() => toggleMenu(true)}>FAQ</a>
+                    <a href="/events" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Events</a>
+                    <a href="/page" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Donate</a>
+                    <a href="/page" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Volunteer</a>
                 </div>
             {/if}
         </div>
@@ -67,7 +73,13 @@
         display: flex;
         flex-direction: column;
         align-left: center;
+        padding-bottom: 100rem;
     }
+
+    .overlay {
+        @apply fixed inset-0 bg-black bg-opacity-50 z-30;
+    }
+
 
     .mobile-nav-link {
         @apply text-white no-underline transition-all ease-in-out duration-300 border-b border-gray-400 p-3 text-3xl hover:text-red-500;

@@ -26,6 +26,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"marked": "^11.1.1",
 		"pocketbase": "^0.20.2",
 		"svelte-google-auth": "^0.7.2"
 	}
