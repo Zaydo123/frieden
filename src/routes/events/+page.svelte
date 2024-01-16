@@ -5,19 +5,20 @@
 <script>
     import EventCard from './components/EventCard.svelte';
     import {pb} from '$lib/pocketbase';
+    import {onMount} from 'svelte';
     export let data; // Getting from +layout.server.js
-
 
     let currentEvents = { items: [] };
     let pastEvents = { items: [] };
 
-
-    pb.collection('Events').getList(1, 30).then((res) => {
-        const today = new Date();
-        currentEvents.items = res.items.filter(event => new Date(event.EventDate) >= today);
-        pastEvents.items = res.items.filter(event => new Date(event.EventDate) < today);
-    }).catch((err) => {
-        console.log(err);
+    onMount(() => {
+        pb.collection('Events').getList(1, 30).then((res) => {
+            const today = new Date();
+            currentEvents.items = res.items.filter(event => new Date(event.EventDate) >= today);
+            pastEvents.items = res.items.filter(event => new Date(event.EventDate) < today);
+        }).catch((err) => {
+            console.log(err);
+        });
     });
 
 </script>
