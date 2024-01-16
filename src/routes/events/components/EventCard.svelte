@@ -26,14 +26,3 @@
 </div>
 
 
-<style lang="postcss">
-
-    /*custom really dark colors*/
-
-    .bg-gray-1000 {
-        --bg-opacity: 1;
-        background-color: #0d1117;
-        background-color: rgba(13, 17, 23, var(--bg-opacity));
-    }
-
-</style>

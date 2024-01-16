@@ -1,5 +1,8 @@
 <script>
     import "../app.css";    
+    import {currentUser} from '$lib/pocketbase';
+
+
     let isMenuOpen = false;
 
     function toggleMenu(forceClose = false) {
@@ -17,18 +20,14 @@
         }
     }
 
-
-
     $: outerWidth = 0;
     $: innerWidth = 0;
     $: outerHeight = 0;
     $: innerHeight = 0;
     const mobileWidth = 900;
+
 </script>
 
-<svelte:head>
-    <script src="/sdk/pocketbase.umd.js"></script>
-</svelte:head>
 
 <svelte:window bind:outerWidth bind:innerWidth bind:outerHeight bind:innerHeight />
 
@@ -42,25 +41,31 @@
         </div>
         <div class="align-right ml-auto font-bold">
             {#if innerWidth > mobileWidth}
-                <a href="#about" class="nav-link">About</a>
+            <a href="/page" class="nav-link">Donate</a>
+            <a href="/page" class="nav-link">Volunteer</a>
+            <a href="/events" class="nav-link">Events</a>
                 <a href="#contact-us" class="nav-link">Contact</a>
-                <a href="/page" class="nav-link">FAQ</a>
-                <a href="/events" class="nav-link">Events</a>
-                <a href="/page" class="nav-link">Donate</a>
-                <a href="/page" class="nav-link">Volunteer</a>
+                {#if $currentUser}
+                    <a href="/logout" class="nav-link">Sign Out</a>
+                {:else}
+                    <a href="/login" class="nav-link">Login</a>
+                {/if}
             {:else}
                 <button class="menu-icon" on:click={() => toggleMenu()}>
-                    <img src="/components/icons/menuIcon.svg" alt="Menu" class="h-12 invert w-3/4">
+                    <img src="/components/icons/menuIcon.svg" alt="Menu" class="h-10 invert w-3/4">
                 </button>
             {/if}
             {#if innerWidth <= mobileWidth }
-                <div class={`mobile-menu absolute top-[85px] left-0 right-0 bg-black shadow-lg z-40 p-4 transition-all ease-in-out duration-500 ${isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                    <a href="#about" class="mobile-nav-link" on:click={() => toggleMenu(true)}>About</a>
-                    <a href="#contact" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Contact</a>
-                    <a href="/page" class="mobile-nav-link" on:click={() => toggleMenu(true)}>FAQ</a>
-                    <a href="/events" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Events</a>
+                <div class={`mobile-menu absolute top-[65px] left-0 right-0 bg-black shadow-lg z-40 p-4 transition-all ease-in-out duration-500 ${isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                     <a href="/page" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Donate</a>
                     <a href="/page" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Volunteer</a>
+                    <a href="/events" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Events</a>
+                    <a href="#contact" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Contact</a>
+                    {#if $currentUser}
+                        <a href="/logout" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Sign Out</a>
+                    {:else}
+                        <a href="/login" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Login</a>
+                    {/if}
                 </div>
             {/if}
         </div>
@@ -112,4 +117,6 @@
 
 </style>
 
-<slot/>
+<div class="content-container mt-20">
+    <slot/>
+</div>

@@ -1,10 +1,8 @@
 <script>
-    import { onMount } from 'svelte';
-    import PocketBase from 'pocketbase';
     import { marked } from 'marked';
+    import { currentUser,pb } from '$lib/pocketbase';
 
     export let data;
-    let PB_URL = data.PB_URL;
     let slug = data.slug;
 
     let event = {
@@ -19,18 +17,11 @@
 
     let pageContentElement;
 
-    onMount(async () => {
-        const pb = new PocketBase(PB_URL);
-        try {
-            const res = await pb.collection('Events').getOne(slug);
-            event = res;
-            if (event.PageContent) {
-                event.PageContent = marked(event.PageContent);
-                pageContentElement.innerHTML = event.PageContent;
-            }
-        } catch (err) {
-            console.error(err);
-        }
+    pb.collection('Events').getOne(slug).then((res) => {
+        event = res;
+        pageContentElement.innerHTML = marked(event.PageContent);
+    }).catch((err) => {
+        console.log(err);
     });
 
 </script>

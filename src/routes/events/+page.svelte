@@ -3,23 +3,23 @@
 </svelte:head>
 
 <script>
-    import { onMount } from 'svelte';
     import EventCard from './components/EventCard.svelte';
+    import {pb} from '$lib/pocketbase';
     export let data; // Getting from +layout.server.js
+
 
     let currentEvents = { items: [] };
     let pastEvents = { items: [] };
 
-    onMount(() => {
-        const pb = new PocketBase(data.PB_URL);
-        pb.collection('Events').getList(1, 30).then((res) => {
-            const today = new Date();
-            currentEvents.items = res.items.filter(event => new Date(event.EventDate) >= today);
-            pastEvents.items = res.items.filter(event => new Date(event.EventDate) < today);
-        }).catch((err) => {
-            console.log(err);
-        });
+
+    pb.collection('Events').getList(1, 30).then((res) => {
+        const today = new Date();
+        currentEvents.items = res.items.filter(event => new Date(event.EventDate) >= today);
+        pastEvents.items = res.items.filter(event => new Date(event.EventDate) < today);
+    }).catch((err) => {
+        console.log(err);
     });
+
 </script>
 
 <h1 class="mt-20 pt-5 text-white text-center text-4xl font-bold">Upcoming Events</h1>

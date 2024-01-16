@@ -78,3 +78,13 @@ h2 {
     transform: scaleX(1);
     transform-origin: left;
 }
+
+.bg-gray-1000 {
+    --bg-opacity: 1;
+    background-color: #0d1117;
+    background-color: rgba(13, 17, 23, var(--bg-opacity));
+}
+
+.mt-30 {
+    margin-top: 120px;
+}

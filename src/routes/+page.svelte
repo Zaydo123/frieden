@@ -4,7 +4,7 @@
     import Row2 from "./components/row2/Row2.svelte";
     import Contact from "./components/contact/Contact.svelte";
 </script>
-<div class="pt-16">
+<div>
     <Parallax />
 </div>
 
