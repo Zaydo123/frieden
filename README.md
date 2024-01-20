@@ -6,5 +6,22 @@
 ## About
 This is the source code for the Frieden Foundation website. It is built using [SvelteKit](https://kit.svelte.dev/).
 
-__incomplete__
 
+### TODO
+- [ ] Stripe Integration
+- [ ] Add a way to donate
+- [ ] Contact Form Backend
+- [ ] Volunteer Form
+- [ ] Join Group Form
+- [ ] Admin Panel (last priority)
+- [ ] User Roles (with admin panel)
+- [ ] Dockerize
+
+### Bugs
+- [ ] Fix EventGroups group creation limit
+  
+### Styling fixes (to do)
+- [ ] Font choice for navbar on desktop
+
+### Notes
+1. make static site in meantime, strip group creation
