@@ -1,6 +1,7 @@
 <script>
     import { marked } from 'marked';
     import { currentUser,pb } from '$lib/pocketbase';
+    import {onMount} from 'svelte';
 
     export let data;
     let slug = data.slug;
@@ -16,12 +17,13 @@
     };
 
     let pageContentElement;
-
-    pb.collection('Events').getOne(slug).then((res) => {
-        event = res;
-        pageContentElement.innerHTML = marked(event.PageContent);
-    }).catch((err) => {
-        console.log(err);
+    onMount(() => {
+        pb.collection('Events').getOne(slug).then((res) => {
+            event = res;
+            pageContentElement.innerHTML = marked(event.PageContent);
+        }).catch((err) => {
+            console.log(err);
+        });
     });
 
 </script>

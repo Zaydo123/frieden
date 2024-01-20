@@ -1,12 +1,6 @@
 <script>
     import {onMount} from 'svelte';
-    
-    export let data;
-
-    
-    onMount(() => {
-        console.log(data);
-    });
-
-
+    import Form from './Form.svelte';
 </script>
+
+<Form />

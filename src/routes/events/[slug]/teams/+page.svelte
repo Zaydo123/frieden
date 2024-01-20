@@ -25,7 +25,7 @@
 
 <div class="container-box">
 
-    <div class="box flex flex-col items-center justify-center bg-gray-1000 py-12 px-4 lg:px-8 w-2/3 md:w-1/2 lg:w-1/3 rounded-lg shadow-lg m-auto mt-30">
+    <div class="box flex flex-col items-center justify-center bg-gray-1000 py-12 px-4 lg:px-8 w-4/5 md:w-1/2 lg:w-1/3 rounded-lg shadow-lg m-auto mt-30">
         {#if $currentUser}
 
             <div class="text-center mb-8">
