@@ -18,7 +18,7 @@
 </script>
 
 <main class="flex flex-col items-center justify-center m-auto ">
-    <div class="ct bg-gray-1000 rounded-lg text-center">
+    <div class="ct bg-gray-1000 rounded text-center">
         <h1 class="mb-4 text-white">Login</h1>
         <button on:click={loginWithGoogle}>
             <img src={'/components/signin-assets/Web/png@3x/dark/web_dark_sq_ctn@3x.png'} alt="Google Login"/>

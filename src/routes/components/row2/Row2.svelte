@@ -30,7 +30,7 @@
 <main class="text-white mx-auto mt-5 rounded p-8">
     <h1 class="text-left mb-8 font-bold">Meaningful Work</h1>
     {#each rows as row}
-        <div class="flex items-center mb-8 p-8 bg-dark-mode rounded">
+        <div class="flex items-center mb-8 p-8 bg-dark-mode rounded-xl">
             <div class="mr-4">
                 <img src={row.image} alt={row.title} class="w-full h-full object-cover" />
             </div>

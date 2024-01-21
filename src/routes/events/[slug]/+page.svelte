@@ -8,7 +8,7 @@
 
     let event = {
         Title: '',
-        EventDate: '',
+        EventDate: new Date(),
         Location: '',
         MapURL: '',
         Images: '',
@@ -32,7 +32,6 @@
     <h1 class="text-white text-3xl font-bold mt-5 mb-3">{event.Title}</h1>
     <p class="text-gray-400">{new Date(event.EventDate).toLocaleString()}</p>
     <a href={event.MapURL} class="text-blue-400 underline cursor-pointer">{event.Location}</a>
-    <p class="text-white">{event.Description}</p>
     <div class="page-content text-white mt-5 overflow-auto" bind:this={pageContentElement}></div>
 </div>
 

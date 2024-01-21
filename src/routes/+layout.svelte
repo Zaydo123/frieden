@@ -1,3 +1,8 @@
+
+<svelte:head>
+    <fav
+</svelte:head>
+
 <script>
     import "../app.css";    
     import {currentUser} from '$lib/pocketbase';
@@ -41,10 +46,11 @@
         </div>
         <div class="align-right ml-auto font-bold">
             {#if innerWidth > mobileWidth}
+            <a href="/" class="nav-link">Home</a>
             <a href="/page" class="nav-link">Donate</a>
-            <a href="/page" class="nav-link">Volunteer</a>
+            <a href="/volunteer" class="nav-link">Volunteer</a>
             <a href="/events" class="nav-link">Events</a>
-                <a href="#contact-us" class="nav-link">Contact</a>
+                <a href="/#contact" class="nav-link">Contact</a>
                 {#if $currentUser}
                     <a href="/logout" class="nav-link">Sign Out</a>
                 {:else}
@@ -57,10 +63,11 @@
             {/if}
             {#if innerWidth <= mobileWidth }
                 <div class={`mobile-menu absolute top-[65px] left-0 right-0 bg-black shadow-lg z-40 p-4 transition-all ease-in-out duration-500 ${isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                    <a href="/" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Home</a>
                     <a href="/page" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Donate</a>
-                    <a href="/page" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Volunteer</a>
+                    <a href="/volunteer" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Volunteer</a>
                     <a href="/events" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Events</a>
-                    <a href="#contact" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Contact</a>
+                    <a href="/#contact" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Contact</a>
                     {#if $currentUser}
                         <a href="/logout" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Sign Out</a>
                     {:else}

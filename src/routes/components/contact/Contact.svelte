@@ -2,7 +2,7 @@
 
 </script>
 
-<div class="contact-us">
+<div class="contact-us mb-10" id="contact">
     <div class="contact-us__container">
         <div class="contact-us__container__logo">
 

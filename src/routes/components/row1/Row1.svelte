@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
 
-    let originalText = 'Frieden Foundation';
+    let originalText = 'FRIEDEN FOUNDATION';
     const chars = "☺Σ×Π#-_¯—→↓↑←0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZ";
     let glitchedText = writable(originalText);
 

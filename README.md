@@ -9,6 +9,7 @@ This is the source code for the Frieden Foundation website. It is built using [S
 
 ### TODO
 - [ ] Stripe Integration
+- [ ] Resume Upload support on volunteer form
 - [ ] Add a way to donate
 - [ ] Contact Form Backend
 - [ ] Volunteer Form
