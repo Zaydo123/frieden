@@ -1,14 +1,67 @@
 <script>
-export let data;
-import { superForm } from 'sveltekit-superforms/client';
-import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 import {onMount} from 'svelte';
+import { goto } from '$app/navigation';
+import { superForm } from 'sveltekit-superforms/client';
+import { z } from 'zod';
+import { FileDropzone} from '@skeletonlabs/skeleton';
+import {pb} from '$lib/pocketbase';
+
+export let data;
+
+let schema = z.object({
+    name: z.string().default(''),
+    email: z.string().email().min(5).max(50).default(''),
+    phone: z.string().min(3).max(15).default(''),
+    typeOfVolunteer: z.string().min(1).max(20).default('Volunteer'),
+    position: z.string().max(50).default('').optional(),
+});
+
+
+const { form, enhance, tainted, errors, constraints } = superForm(data.form,
+{applyAction: true, invalidateAll: true, resetForm: false,
+ taintedMessage: 'You have unsaved changes. Are you sure you want to leave this page?',
+ validators: schema,
+ validationMethod: 'auto',
+ defaultValidator: 'clear',
+});
 
 let volunteerTypes = ["Volunteer", "Staff", "Intern", "Board Member"]
 let typeOfVolunteer = volunteerTypes[0];
+let files = [];
 
-const { form, enhance, tainted, errors, constraints } = superForm(data.form,{applyAction: true, invalidateAll: true, resetForm: false, taintedMessage: 'You have unsaved changes. Are you sure you want to leave this page?'});
+let errorVisible = false;
+let errorMessage = "";
 
+function sendApplication() {
+    if (form.valid) {
+        let formData = new FormData();
+        formData.append('Name', form.name);
+        formData.append('Email', form.email);
+        formData.append('Phone', form.phone);
+        formData.append('ApplicationType', form.typeOfVolunteer);
+        formData.append('DesiredPosition', form.position);
+        formData.append('Resume', files[0]);
+        pb.collection('VolunteerApplications')
+            .create(formData)
+            .then((res) => {
+
+                if(res.valid){
+                    errorVisible = false;
+                }else{    
+                    errorVisible = true;
+                    errorMessage = res.errors[0];
+
+                }
+
+                goto('/');
+            })
+            .catch((err) => {
+                console.log("err")
+            });
+    }
+}
+
+// sure you want to leave message init
 onMount(() => {
     tainted.subscribe((value) => {
         if (value) {
@@ -20,23 +73,38 @@ onMount(() => {
 
 });    
 
-function deleteFile() {
-    $form.resume = null;
-}
 
 </script>
 
-<SuperDebug data={$form} />
+
+<!-- <SuperDebug data={$form} /> -->
+
+{#if errorVisible}
+    <aside class="alert variant-ghost">
+        <!-- Icon -->
+        <div>(icon)</div>
+        <!-- Message -->
+        <div class="alert-message">
+            <h3 class="h3">(title)</h3>
+            <p>{errorMessage}</p>
+        </div>
+        <!-- Actions -->
+        <div class="alert-actions">
+            <!-- Dismiss -->
+            <button class="">Dismiss</button>
+        </div>
+    </aside>
+{/if}
 
 
-<div class="container mx-auto px-4 py-10">
+<div class="container w-max mx-auto px-10 py-10">
     <h1 class="text-center text-3xl font-bold text-white">Apply to Volunteer</h1>
     <div id="form" class="max-w-md mx-auto rounded-lg shadow-md overflow-hidden">
         <form action="" method="POST" enctype="multipart/form-data" class="p-8" use:enhance>
             <!-- Name Field -->
             <div class="mb-6">
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-300">Name</label>
-                <input type="text" id="name" name="name" required autocomplete="name" class="input-field" bind:value={$form.name}>
+                <input type="text" id="name" name="name" required autocomplete="name" class="input-field" bind:value={$form.name} {...$constraints.email}>
             </div>
 
             <!-- Email Field -->
@@ -48,7 +116,7 @@ function deleteFile() {
             <!-- Phone Field -->
             <div class="mb-6">
                 <label for="phone" class="block mb-2 text-sm font-medium text-gray-300">Phone</label>
-                <input type="tel" id="phone" name="phone" required autocomplete="tel" class="input-field" bind:value={$form.phone}>
+                <input type="number" id="phone" name="phone" required autocomplete="tel" class="input-field" bind:value={$form.phone}>
             </div>
 
 
@@ -62,7 +130,7 @@ function deleteFile() {
                 </select>
             </div>
 
-            {#if $form.typeOfVolunteer !== typeOfVolunteer}
+            {#if $form.typeOfVolunteer != typeOfVolunteer}
                 <!-- Desired Position Field -->
                 <div class="mb-6">
                     <label for="position" class="block mb-2 text-sm font-medium text-gray-300">Desired Position</label>
@@ -71,28 +139,19 @@ function deleteFile() {
                 
                 <!-- Location -->
                 
-                
                 <label for="dropzone" class="block mb-2 text-sm font-medium text-gray-300">Resume</label>
-                <div class="flex flex-col items-center justify-center w-full mb-10" >
-                    <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer" draggable="true">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                            </svg>
-                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">PDF files only</p>
-                            <!-- Attached files list -->
-                        </div>
-                        <ul id="attached-files" class="hidden mt-3"></ul>
+                <FileDropzone id="dropzone" class="text-white mb-10" bind:files={files} accept=".pdf">
+                {#if files!=[]}
+                    <div class="flex flex-col items-center justify-center w-full h-64 rounded-lg cursor-pointer text-white">
+                        <img src="/components/icons/pdf.svg" alt="preview" class="h-4/5"/>
+                        <h1>{files[0].name}</h1>
+                    </div>
+                {/if}
 
-
-                        <input id="dropzone-file" type="file" class="focusable m-1 text-white" accept=".pdf" bind:files={$form.resume} name="pdf-file" required >
-                    </label>
-                </div>
+                </FileDropzone>
 
             {/if}
             <button type="submit" class="w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit Application</button>
-        
 
         </form>
     </div>
@@ -110,5 +169,6 @@ function deleteFile() {
     :global(.input-field:focus) {
         outline: none;
     }
+
     
 </style>

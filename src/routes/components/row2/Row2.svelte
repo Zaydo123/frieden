@@ -26,20 +26,19 @@
 <svelte:window bind:innerWidth />
 
 
-
-<main class="text-white mx-auto mt-5 rounded p-8">
-    <h1 class="text-left mb-8 font-bold">Meaningful Work</h1>
+<main class="mx-auto p-8 bg-tertiary-900">
+    <h1 class="text-center sm:text-left mb-8 font-bold text-warning-400 selection:bg-warning-500 selection:text-warning-50">Meaningful Work</h1>
     {#each rows as row}
-        <div class="flex items-center mb-8 p-8 bg-dark-mode rounded-xl">
+        <div class="work-row flex items-center mb-8 p-8 rounded-xl bg-tertiary-700 ">
             <div class="mr-4">
-                <img src={row.image} alt={row.title} class="w-full h-full object-cover" />
+                <img src={row.image} alt={row.title} class="w-full h-full object-cover uniform-img" />
             </div>
             <div>
-                <h2 class="text-2xl font-bold mb-4">{row.title}</h2>
+                <h2 class="text-2xl text-primary-50 font-bold mb-4 selection:bg-warning-500">{row.title}</h2>
                 {#if innerWidth < 900}
-                    <p class="mb-4">{row.mobileDescription}</p>
+                    <p class="mb-4 text-tertiary-300 selection:bg-warning-400 selection:text-white">{row.mobileDescription}</p>
                 {:else}
-                <p class="mb-4">{row.description}</p>
+                <p class="mb-4 text-tertiary-300 selection:bg-warning-400 selection:text-white">{row.description}</p>
                 {/if}
             </div>
         </div>
@@ -47,7 +46,7 @@
 </main>
 
 <style lang="postcss">
-    @media (max-width: 900px) {
+    @media (max-width: 768px) {
         .flex {
             flex-direction: column;
         }
@@ -57,7 +56,23 @@
         }
     }
 
-    .bg-dark-mode {
-        background-color: #1F1F1F;
+    /*make all desktop images 3x2 aspect ratio*/
+
+    .uniform-img{
+        min-width: 265px;
+        min-height: 177px;
+        max-height: 265px;
     }
+
+    /* hover effects */
+    
+    .work-row {
+        transition: transform 0.5s ease;
+    }
+
+    .work-row:hover {
+        transform: scale(1.01);
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
+    }
+
 </style>    

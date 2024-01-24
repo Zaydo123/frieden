@@ -1,10 +1,8 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
-
 
 body{
-    background-color: #000000;
+    @apply bg-primary-500;
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 400;
@@ -17,7 +15,7 @@ body{
 }
 
 a {
-    color: #fff;
+    @apply text-primary-500;
     text-decoration: none;
     background-color: transparent;
 }
@@ -88,3 +86,6 @@ h2 {
 .mt-30 {
     margin-top: 120px;
 }
+
+
+@tailwind utilities;

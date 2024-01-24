@@ -4,12 +4,8 @@
     import Row2 from "./components/row2/Row2.svelte";
     import Contact from "./components/contact/Contact.svelte";
 </script>
-<div>
-    <Parallax />
-</div>
 
-<div class="mb-16">
-    <Row1 />
-</div>
+<Parallax />
+<Row1 />
 <Row2 />
 <Contact />

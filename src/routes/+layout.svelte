@@ -1,6 +1,5 @@
-
 <svelte:head>
-    <fav
+    <link rel="icon" href="/favicon.ico" />
 </svelte:head>
 
 <script>
@@ -37,11 +36,11 @@
 <svelte:window bind:outerWidth bind:innerWidth bind:outerHeight bind:innerHeight />
 
 <div class={`nav-container ${isMenuOpen ? 'is-menu-open' : ''}`}>
-    <div class="nav-header flex flex-row items-center p-4 pl-[5%] bg-black shadow-md fixed top-0 left-0 right-0 z-50">
+    <div class="nav-header flex flex-row items-center p-4 pl-[5%] bg-primary-500 shadow-md fixed top-0 left-0 right-0 z-50">
         <div class="align-left flex flex-row items-center">
             <a href="/" class="flex flex-row items-center">
                 <img id="logo" src="/frieden.svg" alt="Logo" class="w-12 h-12 rounded-full mr-4">
-                <h1 class="text-white text-xl font-bold m-0 p-0">Frieden Foundation</h1>
+                <h1 class="text-success-100 text-xl font-bold m-0 p-0">Frieden Foundation</h1>
             </a>
         </div>
         <div class="align-right ml-auto font-bold">
@@ -62,7 +61,7 @@
                 </button>
             {/if}
             {#if innerWidth <= mobileWidth }
-                <div class={`mobile-menu absolute top-[65px] left-0 right-0 bg-black shadow-lg z-40 p-4 transition-all ease-in-out duration-500 ${isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                <div class={`bg-primary-500 mobile-menu absolute top-[65px] left-0 right-0 shadow-lg z-40 p-4 transition-all ease-in-out duration-500 ${isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                     <a href="/" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Home</a>
                     <a href="/page" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Donate</a>
                     <a href="/volunteer" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Volunteer</a>
@@ -82,7 +81,7 @@
 
 <style lang="postcss">
     .nav-link {
-        @apply text-white text-sm no-underline px-4 transition-all ease-in-out;
+        @apply text-error-500 text-sm no-underline px-4 transition-all ease-in-out;
     }
 
     .menu-icon {
@@ -94,9 +93,9 @@
     }
 
     .mobile-menu {
+        @apply bg-primary-500;
         @apply overflow-hidden;
         height: 100vh;
-        background-color: #000000;
         display: flex;
         flex-direction: column;
         align-items: left;
@@ -107,13 +106,8 @@
     }
 
 
-    .overlay {
-        @apply fixed inset-0 bg-black bg-opacity-50 z-30;
-    }
-
-
     .mobile-nav-link {
-        @apply text-white no-underline transition-all ease-in-out duration-300 border-b border-gray-400 p-3 text-3xl hover:text-red-500;
+        @apply text-success-100 no-underline transition-all ease-in-out duration-300 border-b border-gray-400 p-3 text-3xl hover:text-red-500;
 
     }
 
