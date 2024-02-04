@@ -1,78 +1,136 @@
 <script>
-    let rows = [
-        {
-            title: "Emergency Relief",
-            description: "The Frieden Foundation is dedicated to offering emergency medical care to people and communities impacted by natural disasters. Our organization is committed to helping those in need, whether that means raising money for first aid and emergency medical services or raising money to send mobile clinics to disaster-stricken areas. Additionally, our team is prepared to offer vital support to those suffering from the trauma and stress of a natural disaster because we understand how important mental health services are in such circumstances.",
-            mobileDescription: "We are dedicated to offering emergency medical care to people and communities impacted by natural disasters.",
-            image: "/home/components/meaningfulWork/destroyedBuilding.webp"
-        },
-        {
-            title: "Refugee Care",
-            description: "We provide relief to refugee camps around the world. Our goal is to address the many pressing needs of those in these underprivileged countries, including providing access to essential resources such as food, water, and shelter, as well as medical care and other forms of support. We understand the immense challenges faced by those who have been displaced due to conflict and persecution, and we are committed to helping improve their living conditions and overall well-being. Our work is an important part of providing hope and support to those who have experienced great hardship.",
-            mobileDescription: "We aid refugee camps worldwide. We acknowledge the hardships displaced people endure and are dedicated to improving their living circumstances and well-being. We help individuals who have suffered greatly find hope and support.",
-            image: "/home/components/meaningfulWork/wires.webp"
-        },
-        {
-            title: "Community Integration",
-            description: "Frieden Foundation unites communities through engaging events and tournaments that also serve a dual purpose of supporting refugees. Our local activities, infused with fun and a sense of togetherness, raise funds and awareness for those in need, fostering a spirit of empathy and global responsibility.",
-            mobileDescription: "Join our community-focused events and tournaments, blending enjoyment with meaningful support for local and international causes.",
-            image: "/home/components/meaningfulWork/bballTeam.jpeg"
-        }
-    ];
-
-    $: innerWidth = 0;
-</script>
-
-<svelte:window bind:innerWidth />
-
-
-<main class="mx-auto p-8 bg-tertiary-900">
-    <h1 class="text-center sm:text-left mb-8 font-bold text-warning-400 selection:bg-warning-500 selection:text-warning-50">Meaningful Work</h1>
-    {#each rows as row}
-        <div class="work-row flex items-center mb-8 p-8 rounded-xl bg-tertiary-700 ">
-            <div class="mr-4">
-                <img src={row.image} alt={row.title} class="w-full h-full object-cover uniform-img" />
-            </div>
-            <div>
-                <h2 class="text-2xl text-primary-50 font-bold mb-4 selection:bg-warning-500">{row.title}</h2>
-                {#if innerWidth < 900}
-                    <p class="mb-4 text-tertiary-300 selection:bg-warning-400 selection:text-white">{row.mobileDescription}</p>
-                {:else}
-                <p class="mb-4 text-tertiary-300 selection:bg-warning-400 selection:text-white">{row.description}</p>
-                {/if}
-            </div>
-        </div>
-    {/each}
-</main>
-
-<style lang="postcss">
-    @media (max-width: 768px) {
-        .flex {
-            flex-direction: column;
-        }
-        .mr-4 {
-            margin-bottom: 1rem;
-            margin-right: 0;
-        }
-    }
-
-    /*make all desktop images 3x2 aspect ratio*/
-
-    .uniform-img{
-        min-width: 265px;
-        min-height: 177px;
-        max-height: 265px;
-    }
-
-    /* hover effects */
+    import { onMount } from "svelte";
     
+    let rows = [
+      {
+        title: "Emergency Relief",
+        description:
+          "We are dedicated to offering emergency medical care to people and communities impacted by natural disasters.",
+        image: "/home/components/meaningfulWork/destroyedBuilding.webp",
+      },
+      {
+        title: "Refugee Care",
+        description:
+          "We acknowledge the hardships displaced people endure and are dedicated to improving their living circumstances and well-being. We help individuals who have suffered greatly find hope and support.",
+        image: "/home/components/meaningfulWork/wires.webp",
+      },
+      {
+        title: "Community Integration",
+        description:
+          "Join our community-focused events and tournaments, blending enjoyment with meaningful support for local and international causes.",
+        image: "/home/components/meaningfulWork/bballTeam.jpeg",
+      },
+      {
+        title: "Education",
+        description:
+          "We believe that education is the key to a brighter future. We are dedicated to providing educational resources and opportunities to those in need.",
+        image: "/home/components/meaningfulWork/education.webp",
+      },
+      {
+        title: "Healthcare",
+        description:
+          "We are dedicated to providing healthcare to those in need. We believe that everyone deserves access to quality healthcare.",
+        image: "/home/components/meaningfulWork/healthcare.webp",
+      },
+      {
+        title: "Food Security",
+        description:
+          "We are dedicated to providing food security to those in need. We believe that everyone deserves access to quality food.",
+        image: "/home/components/meaningfulWork/food.webp",
+      },
+    ];
+    
+    let hoveredCardIndex = -1;
+    
+    function setHoveredCard(index) {
+      hoveredCardIndex = index;
+    }
+    
+    function resetHoveredCard() {
+      hoveredCardIndex = -1;
+    }
+    
+    onMount(() => {
+      let frost = document.querySelectorAll(".frost");
+      frost.forEach((el, i) => {
+        el.style.backgroundImage = `url(${rows[i].image})`;
+      });
+    });
+    
+    let innerWidth = 0;
+  </script>
+  
+  <svelte:window bind:innerWidth />
+  
+  <main class="flex mx-auto p-8 bg-tertiary-900 gap-10 items-center justify-center min-h-screen">
+    <div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {#each rows as row, index}
+          <div
+            class="frost work-row flex flex-col items-center justify-center p-8 rounded-xl w-full h-96
+                   md:flex-row md:h-80 md:w-96 md:items-start md:text-left
+                   hover:shadow-lg hover:scale-105 transition-transform"
+            on:mouseenter={() => setHoveredCard(index)}
+            on:mouseleave={resetHoveredCard}
+          >
+            <div class="text-center md:text-left md:ml-4">
+              <h2
+                class="text-2xl text-white font-bold mb-4 selection:bg-warning-500"
+                class:top={hoveredCardIndex === index}
+                class:centered={hoveredCardIndex !== index}
+              >
+                {row.title}
+              </h2>
+              {#if row.description}
+                <p
+                  class="text-white mb-4 opacity-0"
+                  class:visible={hoveredCardIndex === index}
+                  style="max-height: 1000px; overflow: hidden; transition: max-height 0.5s ease, opacity 0.5s ease;"
+                >
+                  {row.description}
+                </p>
+              {/if}
+            </div>
+          </div>
+        {/each}
+      </div>
+    </div>
+  </main>
+  
+  <style lang="postcss">
     .work-row {
-        transition: transform 0.5s ease;
+      transition: all 0.5s ease;
+      transform: translateY(10px);
     }
-
+  
+    .frost {
+      background-size: cover;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  
+    .work-row .top {
+      transform: translateY(0);
+      transition: transform 0.5s ease;
+    }
+  
+    .work-row .visible {
+      max-height: 1000px;
+      opacity: 1;
+    }
+  
     .work-row:hover {
-        transform: scale(1.01);
-        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 0.5rem rgba(0, 0, 0, 0.5));
+      filter: brightness(1.1);
     }
-
-</style>    
+  
+  
+    .centered {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+    }
+  </style>
+  

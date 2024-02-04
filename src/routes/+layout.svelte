@@ -81,7 +81,7 @@
 
 <style lang="postcss">
     .nav-link {
-        @apply text-error-500 text-sm no-underline px-4 transition-all ease-in-out;
+        @apply text-error-50 text-xs no-underline px-4 transition-all ease-in-out hover:text-red-500;
     }
 
     .menu-icon {

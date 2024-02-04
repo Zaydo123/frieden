@@ -2,7 +2,7 @@
     let y;
     let innerWidth;
   
-    $: translateY = y * 0.30;
+    $: translateY = y * 0.50 - 20;
   </script>
   
   <style lang="postcss">
@@ -19,9 +19,9 @@
     }
   
     .gradient-text {
+      padding-bottom: 3px;
       background: linear-gradient(45deg, #ff0000, #db4343, #6dd5ed);
       background-size: 200% 200%;
-      padding-bottom: 4px;
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
