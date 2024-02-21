@@ -1,11 +1,17 @@
 <script>
     import { pb } from '$lib/pocketbase';
-    import { goto } from '$app/navigation';
-    
+    import { Toast, getToastStore } from '@skeletonlabs/skeleton';
+    const toastStore = getToastStore();
+
+    const ToastSettings = {
+        message: 'Your message has been sent successfully!',
+    }
+
+
     let form = {
-        name: '',
-        email: '',
-        message: '',
+        Name: '',
+        Email: '',
+        Message: '',
     };
 
     let successMessage = '';
@@ -18,11 +24,15 @@
                 if (response) {
                     successMessage = 'Your message has been sent successfully!';
                     form = {
-                        name: '',
-                        email: '',
-                        message: '',
-                    };
+                        Name: '',
+                        Email: '',
+                        Message: '',
+                    }
+
+                    toastStore.trigger(ToastSettings)
                 }
+            } else {
+                errorMessage = 'Please fill out all fields.';
             }
         } catch (error) {
             errorMessage = 'There was an error sending your message. Please try again later.';
@@ -31,36 +41,84 @@
     }
 
     function validateForm() {
-        return form.name && form.email && form.message;
+        return form.Name && form.Email && form.Message;
     }
+
 
 </script>
 
-<section id="contact" class="bg-primary-500 py-10">
-    <div class="w-3/4 lg:max-w-2xl mx-auto bg-gray-800 p-6 rounded-lg shadow-md">
-        <h1 class="text-2xl font-semibold text-white mb-4">Contact Us</h1>
-        {#if successMessage}
-            <p class="text-green-600 mb-4">{successMessage}</p>
-        {/if}
-        {#if errorMessage}
-            <p class="text-red-600 mb-4">{errorMessage}</p>
-        {/if}
-        <form on:submit|preventDefault={sendApplication}>
-            <div class="mb-4">
-                <label for="name" class="block text-white font-bold mb-2">Name</label>
-                <input type="text" name="name" id="name" placeholder="John Doe" required class="w-full rounded-lg bg-gray-700 border-2 border-gray-500 p-2 text-white focus:outline-none focus:border-primary-500"/>
-            </div>
-            <div class="mb-4">
-                <label for="email" class="block text-white font-bold mb-2">Email</label>
-                <input type="email" name="email" id="email" placeholder="example@example.com" required class="w-full rounded-lg bg-gray-700 border-2 border-gray-500 p-2 text-white focus:outline-none focus:border-primary-500"/>
-            </div>
-            <div class="mb-4">
-                <label for="message" class="block text-white font-bold mb-2">Message</label>
-                <textarea name="message" id="message" placeholder="Your message here" required class="w-full rounded-lg bg-gray-700 border-2 border-gray-500 p-2 text-white focus:outline-none focus:border-primary-500"></textarea>
-            </div>
-            <div class="text-center">
-                <button type="submit" class="bg-primary-500 text-white font-semibold rounded-lg px-4 py-2 hover:bg-primary-600 focus:outline-none focus:bg-primary-600">Submit</button>
-            </div>
-        </form>
+<section id="contact" class="flex flex-col items-center justify-center p-8 md:flex-row  md:items-start md:text-left">
+    <div class="text-center md:text-left md:ml-4 md:w-4/5">
+        <h2 class="text-2xl text-white font-bold mb-4">Contact Us</h2>
+        <p class="text-white mb-4 p-2">We would love to hear from you. Please fill out the form below and we will get back to you as soon as possible. If you have any support related questions, please also feel free to reach out to us <a href="mailto:support@friedenfoundation.org" class="text-warning-500">here</a>.</p>
     </div>
+    <form class="flex flex-col items-center w-1/2" on:submit|preventDefault={sendApplication}>
+        <div class="flex flex-col w-full mb-4">
+            <label for="name" class="text-white mb-2">Name</label>
+            <input type="text" id="name" name="name" class="input h-9 rounded" required bind:value={form.Name} />
+        </div>
+        <div class="flex flex-col w-full mb-4">
+            <label for="email" class="text-white mb-2">Email</label>
+            <input type="email" id="email" name="email" class="input h-9 rounded" required bind:value={form.Email} />
+        </div>
+        <div class="flex flex-col w-full mb-4">
+            <label for="message" class="text-white mb-2">Message</label>
+            <textarea id="message" name="message" class="input h-20 rounded-none" required bind:value={form.Message}></textarea>
+        </div>
+
+        <div class="submit-button w-full mb-4">
+        <!-- aligned left button that has white outline like the rest of everything. yes outline. very wide-->
+        <button class="text-white outline w-1/5 p-2 bg-secondary-900" type="submit">Send</button>
+        </div>
+
+
+        {#if errorMessage}
+            <Toast/>
+            <p class="text-warning-500">{errorMessage}</p>
+        {/if}
+        {#if successMessage}
+            <Toast/>
+        {/if}
+
+    </form>
+    
+
 </section>
+
+<style lang="postcss">
+
+
+    .input {
+
+    }
+
+    .input {
+        @apply w-full p-2 bg-primary-500 text-white rounded-none;
+        border: none;
+        border-bottom: 1px solid #fff;
+        max-width: 700px;
+    }
+
+
+    section {
+            @apply gap-10;
+            @apply w-full;
+
+        }
+
+
+
+
+    form {
+        @apply w-full;
+    }
+
+    @media (min-width: 768px) {
+
+
+
+
+
+    }
+
+</style>

@@ -24,19 +24,19 @@
         title: "Education",
         description:
           "We believe that education is the key to a brighter future. We are dedicated to providing educational resources and opportunities to those in need.",
-        image: "/home/components/meaningfulWork/education.webp",
+        image: "/home/components/meaningfulWork/unicef-education.webp",
       },
       {
         title: "Healthcare",
         description:
           "We are dedicated to providing healthcare to those in need. We believe that everyone deserves access to quality healthcare.",
-        image: "/home/components/meaningfulWork/healthcare.webp",
+        image: "/home/components/meaningfulWork/who-medical-crowd.jpg",
       },
       {
         title: "Food Security",
         description:
           "We are dedicated to providing food security to those in need. We believe that everyone deserves access to quality food.",
-        image: "/home/components/meaningfulWork/food.webp",
+        image: "/home/components/meaningfulWork/ukraine-food-drive.jpeg",
       },
     ];
     
@@ -65,15 +65,17 @@
   <main class="flex mx-auto p-8 bg-tertiary-900 gap-10 items-center justify-center min-h-screen">
     <div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         {#each rows as row, index}
-          <div
-            class="frost work-row flex flex-col items-center justify-center p-8 rounded-xl w-full h-96
-                   md:flex-row md:h-80 md:w-96 md:items-start md:text-left
-                   hover:shadow-lg hover:scale-105 transition-transform"
-            on:mouseenter={() => setHoveredCard(index)}
-            on:mouseleave={resetHoveredCard}
-          >
+          <div class="frost work-row flex flex-col items-center justify-center p-8 rounded-xl w-full h-96
+                                 md:flex-row md:h-80 md:w-96 md:items-start md:text-left
+                                 hover:shadow-lg hover:scale-105 transition-transform"
+                    on:mouseenter={() => setHoveredCard(index)}
+                    on:mouseleave={resetHoveredCard}
+                    role="cell"
+                    tabindex="0"
+                >
+  
             <div class="text-center md:text-left md:ml-4">
               <h2
                 class="text-2xl text-white font-bold mb-4 selection:bg-warning-500"
@@ -84,9 +86,9 @@
               </h2>
               {#if row.description}
                 <p
-                  class="text-white mb-4 opacity-0"
+                  class="text-white mb-4 opacity-0 overflow-hidden"
                   class:visible={hoveredCardIndex === index}
-                  style="max-height: 1000px; overflow: hidden; transition: max-height 0.5s ease, opacity 0.5s ease;"
+                  style="max-height: 1000px; transition: all 0.5s ease"
                 >
                   {row.description}
                 </p>
@@ -100,8 +102,7 @@
   
   <style lang="postcss">
     .work-row {
-      transition: all 0.5s ease;
-      transform: translateY(10px);
+      transition: all 1.5s ease;
     }
   
     .frost {
@@ -110,17 +111,15 @@
     }
   
     .work-row .top {
-      transform: translateY(0);
       transition: transform 0.5s ease;
     }
   
     .work-row .visible {
-      max-height: 1000px;
       opacity: 1;
     }
   
     .work-row:hover {
-      transform: scale(1.05);
+      transform: scale(1.005);
       filter: drop-shadow(0 0 0.5rem rgba(0, 0, 0, 0.5));
       filter: brightness(1.1);
     }
@@ -133,4 +132,5 @@
       height: 100%;
     }
   </style>
+  
   

@@ -5,6 +5,8 @@
 <script>
     import "../app.css";    
     import {currentUser} from '$lib/pocketbase';
+    import { initializeStores } from '@skeletonlabs/skeleton';
+    initializeStores();
 
 
     let isMenuOpen = false;
@@ -36,25 +38,27 @@
 <svelte:window bind:outerWidth bind:innerWidth bind:outerHeight bind:innerHeight />
 
 <div class={`nav-container ${isMenuOpen ? 'is-menu-open' : ''}`}>
-    <div class="nav-header flex flex-row items-center p-4 pl-[5%] bg-primary-500 shadow-md fixed top-0 left-0 right-0 z-50">
-        <div class="align-left flex flex-row items-center">
-            <a href="/" class="flex flex-row items-center">
+    <div class="nav-header flex items-center p-4 pl-[5%] bg-primary-500 shadow-md fixed top-0 left-0 right-0 z-50">
+        <div class="align-left flex items-center">
+            <a href="/" class="flex items-center">
                 <img id="logo" src="/frieden.svg" alt="Logo" class="w-12 h-12 rounded-full mr-4">
                 <h1 class="text-success-100 text-xl font-bold m-0 p-0">Frieden Foundation</h1>
             </a>
         </div>
         <div class="align-right ml-auto font-bold">
             {#if innerWidth > mobileWidth}
-            <a href="/" class="nav-link">Home</a>
-            <a href="/page" class="nav-link">Donate</a>
-            <a href="/volunteer" class="nav-link">Volunteer</a>
-            <a href="/events" class="nav-link">Events</a>
+            <div class="flex flex-row space-x-4">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/page" class="nav-link">Donate</a>
+                <a href="/volunteer" class="nav-link">Volunteer</a>
+                <a href="/events" class="nav-link">Events</a>
                 <a href="/#contact" class="nav-link">Contact</a>
                 {#if $currentUser}
                     <a href="/logout" class="nav-link">Sign Out</a>
                 {:else}
                     <a href="/login" class="nav-link">Login</a>
                 {/if}
+            </div>
             {:else}
                 <button class="menu-icon" on:click={() => toggleMenu()}>
                     <img src="/components/icons/menuIcon.svg" alt="Menu" class="h-10 invert w-3/4">
@@ -81,7 +85,7 @@
 
 <style lang="postcss">
     .nav-link {
-        @apply text-error-50 text-xs no-underline px-4 transition-all ease-in-out hover:text-red-500;
+        @apply text-error-50 text-base no-underline px-4 transition-all ease-in-out hover:text-red-500;
     }
 
     .menu-icon {
@@ -121,3 +125,6 @@
 <div class="content-container mt-20">
     <slot/>
 </div>
+
+<p class="text-center text-white text-xs mt-10">© 2024 Frieden Foundation</p>
+

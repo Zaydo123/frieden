@@ -37,3 +37,5 @@
       <h1 class="lg:text-5xl md:text-4xl sm: text-2xl gradient-text font-bold">a better place.</h1>
     </div>
   </div>
+
+
