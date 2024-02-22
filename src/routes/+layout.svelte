@@ -1,7 +1,3 @@
-<svelte:head>
-    <link rel="icon" href="/favicon.ico" />
-</svelte:head>
-
 <script>
     import "../app.css";    
     import {currentUser} from '$lib/pocketbase';
@@ -49,7 +45,7 @@
             {#if innerWidth > mobileWidth}
             <div class="flex flex-row space-x-4">
                 <a href="/" class="nav-link">Home</a>
-                <a href="/page" class="nav-link">Donate</a>
+                <a href="/donate" class="nav-link">Donate</a>
                 <a href="/volunteer" class="nav-link">Volunteer</a>
                 <a href="/events" class="nav-link">Events</a>
                 <a href="/#contact" class="nav-link">Contact</a>
@@ -61,13 +57,13 @@
             </div>
             {:else}
                 <button class="menu-icon" on:click={() => toggleMenu()}>
-                    <img src="/components/icons/menuIcon.svg" alt="Menu" class="h-10 invert w-3/4">
+                    <img src="/components/icons/menuIcon.svg" alt="Menu" class="h-10 invert sm:w-4/5">
                 </button>
             {/if}
             {#if innerWidth <= mobileWidth }
                 <div class={`bg-primary-500 mobile-menu absolute top-[65px] left-0 right-0 shadow-lg z-40 p-4 transition-all ease-in-out duration-500 ${isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                     <a href="/" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Home</a>
-                    <a href="/page" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Donate</a>
+                    <a href="/donate" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Donate</a>
                     <a href="/volunteer" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Volunteer</a>
                     <a href="/events" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Events</a>
                     <a href="/#contact" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Contact</a>

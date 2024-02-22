@@ -26,17 +26,25 @@
 <h1 class="mt-20 pt-5 text-white text-center text-4xl font-bold">Upcoming Events</h1>
 
 <div class="event-container">
+    {#if currentEvents.items.length>0}
     {#each currentEvents.items as event}
         <EventCard {event} PB_URL={data.PB_URL}/>
     {/each}
+    {:else}
+    <p class="text-gray-400 text-center">No upcoming events</p>
+    {/if}
 </div>
 
 <h2 class="mt-20 text-gray-400 text-center text-3xl font-bold">Past Events</h2>
 
 <div class="event-container">
+    {#if pastEvents.items.length>0}
     {#each pastEvents.items as event}
         <EventCard {event} PB_URL={data.PB_URL}/>
     {/each}
+    {:else}
+    <p class="text-gray-400 text-center">No past events</p>
+    {/if}
 </div>
 
 <style>

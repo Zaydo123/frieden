@@ -62,31 +62,20 @@
   
   <svelte:window bind:innerWidth />
   
-  <main class="flex mx-auto p-8 bg-tertiary-900 gap-10 items-center justify-center min-h-screen">
+  <main class="flex mx-auto p-8 bg-tertiary-900 gap-20 items-center justify-center min-h-screen">
     <div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 xl:w-max gap-8">
         {#each rows as row, index}
-          <div class="frost work-row flex flex-col items-center justify-center p-8 rounded-xl w-full h-96
-                                 md:flex-row md:h-80 md:w-96 md:items-start md:text-left
-                                 hover:shadow-lg hover:scale-105 transition-transform"
-                    on:mouseenter={() => setHoveredCard(index)}
-                    on:mouseleave={resetHoveredCard}
-                    role="cell"
-                    tabindex="0"
-                >
+          <div class="frost work-row flex flex-col items-center justify-center p-8 rounded-xl w-full h-96 md:flex-row md:w-96 md:items-start md:text-left hover:shadow-lg transition-transform" on:mouseenter={() => setHoveredCard(index)} on:mouseleave={resetHoveredCard} role="cell" tabindex="0">
   
             <div class="text-center md:text-left md:ml-4">
-              <h2
-                class="text-2xl text-white font-bold mb-4 selection:bg-warning-500"
-                class:top={hoveredCardIndex === index}
-                class:centered={hoveredCardIndex !== index}
-              >
+              <h2 class="text-2xl text-white font-bold mb-4 selection:bg-warning-500" class:top={hoveredCardIndex === index} class:centered={hoveredCardIndex !== index}>
                 {row.title}
               </h2>
               {#if row.description}
                 <p
-                  class="text-white mb-4 opacity-0 overflow-hidden"
+                  class="description text-white mb-4 opacity-0 overflow-hidden"
                   class:visible={hoveredCardIndex === index}
                   style="max-height: 1000px; transition: all 0.5s ease"
                 >
@@ -131,6 +120,21 @@
       justify-content: center;
       height: 100%;
     }
+
+    @media (min-width: 768px) {
+      .frost{
+        width: 450px;
+      }
+      
+      .description {
+        @apply overflow-hidden text-white;
+        background-color: rgba(150, 150, 150, .2);
+        padding: 1rem;
+        border-radius: 0.5rem;
+      }
+
+    }
+
   </style>
   
   

@@ -3,40 +3,44 @@
     import { Toast, getToastStore } from '@skeletonlabs/skeleton';
     const toastStore = getToastStore();
 
-    const ToastSettings = {
-        message: 'Your message has been sent successfully!',
-    }
-
-
     let form = {
         Name: '',
         Email: '',
         Message: '',
     };
 
-    let successMessage = '';
-    let errorMessage = '';
+    function resetForm() {
+        form = {
+            Name: '',
+            Email: '',
+            Message: '',
+        }
+    }
+
 
     async function sendApplication() {
         try {
             if (validateForm()) {
                 const response = await pb.collection('Contact').create(form);
                 if (response) {
-                    successMessage = 'Your message has been sent successfully!';
                     form = {
                         Name: '',
                         Email: '',
                         Message: '',
                     }
 
-                    toastStore.trigger(ToastSettings)
+                    toastStore.trigger({message: 'Your message has been sent successfully!',})
+                    resetForm();
+                    
+                } else {
+                    toastStore.trigger({message: 'There was an error sending your message. Please try again later.', classes: 'variant-filled-error',});
                 }
+
             } else {
-                errorMessage = 'Please fill out all fields.';
+                toastStore.trigger({message: 'Please fill out all fields', classes: 'variant-filled-error',});
             }
         } catch (error) {
-            errorMessage = 'There was an error sending your message. Please try again later.';
-            console.error(error);
+            toastStore.trigger({message: 'There was an error sending your message. Please try again later.', classes: 'variant-filled-error',});
         }
     }
 
@@ -49,8 +53,8 @@
 
 <section id="contact" class="flex flex-col items-center justify-center p-8 md:flex-row  md:items-start md:text-left">
     <div class="text-center md:text-left md:ml-4 md:w-4/5">
-        <h2 class="text-2xl text-white font-bold mb-4">Contact Us</h2>
-        <p class="text-white mb-4 p-2">We would love to hear from you. Please fill out the form below and we will get back to you as soon as possible. If you have any support related questions, please also feel free to reach out to us <a href="mailto:support@friedenfoundation.org" class="text-warning-500">here</a>.</p>
+        <h2 class="text-2xl text-white font-bold mb-4 selection:bg-secondary-500">Contact Us</h2>
+        <p class="text-white mb-4 p-2 selection:bg-tertiary-500">We would love to hear from you. Please fill out the form below and we will get back to you as soon as possible. If you have any support related questions, please also feel free to reach out to us <a href="mailto:support@friedenfoundation.org" class="text-warning-500">here</a>.</p>
     </div>
     <form class="flex flex-col items-center w-1/2" on:submit|preventDefault={sendApplication}>
         <div class="flex flex-col w-full mb-4">
@@ -68,29 +72,17 @@
 
         <div class="submit-button w-full mb-4">
         <!-- aligned left button that has white outline like the rest of everything. yes outline. very wide-->
-        <button class="text-white outline w-1/5 p-2 bg-secondary-900" type="submit">Send</button>
+        <button class="text-white outline w-1/5 p-2 bg-secondary-900 selection:outline-red-500" type="submit">Send</button>
         </div>
 
-
-        {#if errorMessage}
-            <Toast/>
-            <p class="text-warning-500">{errorMessage}</p>
-        {/if}
-        {#if successMessage}
-            <Toast/>
-        {/if}
-
+        
     </form>
     
+    <Toast />
 
 </section>
 
 <style lang="postcss">
-
-
-    .input {
-
-    }
 
     .input {
         @apply w-full p-2 bg-primary-500 text-white rounded-none;
@@ -111,14 +103,6 @@
 
     form {
         @apply w-full;
-    }
-
-    @media (min-width: 768px) {
-
-
-
-
-
     }
 
 </style>

@@ -1,133 +1,190 @@
 <script>
-import {onMount} from 'svelte';
-import { FileDropzone} from '@skeletonlabs/skeleton';
-import {pb} from '$lib/pocketbase';
-import { Toast, getToastStore } from '@skeletonlabs/skeleton';
-const toastStore = getToastStore();
+    import { onMount } from 'svelte';
+    import { FileDropzone } from '@skeletonlabs/skeleton';
+    import { pb } from '$lib/pocketbase';
+    import { Toast, getToastStore } from '@skeletonlabs/skeleton';
+    import { putFileinFormData, cleanPhone } from '$lib/helpers';
+    
+    const toastStore = getToastStore();
+    
+    let form = {
+        Name: '',
+        Email: '',
+        Phone: '',
+        ApplicationType: 'Volunteer', // Default type set here
+        DesiredPosition: '',
+    };
 
-const ToastSettings = {
-    message: 'Your application has been sent successfully!',
-}
-
-let form = {
-    Name: '',
-    Email: '',
-    Phone: '',
-    ApplicationType: '',
-    DesiredPosition: '',
-    Resume: '',
-}
-
-
-let volunteerTypes = ["Volunteer", "Staff", "Intern", "Board Member"]
-let typeOfVolunteer = volunteerTypes[0];
-
-
-let errorVisible = false;
-let errorMessage = "";
-
-function sendApplication() {
-
+    function resetForm() {
+        form = {
+            Name: '',
+            Email: '',
+            Phone: '',
+            ApplicationType: 'Volunteer',
+            DesiredPosition: '',
+        };
+    }
+    
+    let volunteerTypes = ["Volunteer", "Staff", "Intern", "Board Member"];
+    let showPreview = false;
+    
+    async function sendApplication() {
+        let formData;
+        // Use the putFileinFormData function to append the file to FormData
+        if (form.ApplicationType !== 'Volunteer' && !showPreview) {
+            toastStore.trigger({
+                message: 'Please upload your resume',
+                classes: 'variant-filled-error',
+            });
+            return;
+        } else if(form.ApplicationType !== 'Volunteer' && showPreview){
+            formData = await putFileinFormData(form.Resume,"Resume");
+        } else {
+            formData = new FormData();
+        }
+        // Append other form fields to formData
+        formData.append('Name', form.Name);
+        formData.append('Email', form.Email);
+        formData.append('Phone', cleanPhone(form.Phone));
+        formData.append('ApplicationType', form.ApplicationType);
+        formData.append('DesiredPosition', form.DesiredPosition);
+        
+        // Sending formData to the server
         pb.collection('Applicants')
-            .create(form)
+            .create(formData)
             .then((res) => {
+                if(res.created){
+                    toastStore.trigger({
+                       message: 'Your application has been sent successfully!',
+                       classes: 'variant-filled-success',
+                    });
+                    resetForm();
 
-                if(res.valid){
-                    errorVisible = false;
-                    toastStore.trigger(ToastSettings);
-
-                }else{    
-                    errorVisible = true;
-                    errorMessage = res.errors;
+                } else {
+                    toastStore.trigger({
+                        message: 'There was an error sending your application. Please try again later.',
+                        classes: 'variant-filled-error',
+                    
+                    });
                 }
 
             })
             .catch((err) => {
-                console.log(err);
-                alert("Something went wrong. Please try again later.");
+                console.error(err);
+                toastStore.trigger({
+                    message: 'There was an error sending your application. Please try again later.',
+                    classes: 'variant-filled-error',
+                });
             });
-}
+    }
 
-// sure you want to leave message init
+    function changeHandler(event) {
+
+        form.Resume = event.target.files[0];
+        if (form.Resume) {
+            showPreview = true;
+        } else if (!form.Resume) {
+            showPreview = false;
+        }
+    }
+        
 
 </script>
 
-
+    
 <Toast/>
-
-<div class="container w-max mx-auto px-10 py-10">
-    <h1 class="text-center text-3xl font-bold text-white">Apply to Volunteer</h1>
-    <div id="form" class="max-w-md mx-auto rounded-lg shadow-md overflow-hidden">
-        <form action="" enctype="multipart/form-data" class="p-8" on:submit|preventDefault={sendApplication}>
-            <!-- Name Field -->
-            <div class="mb-6">
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-300">Name</label>
-                <input type="text" id="name" name="name" required autocomplete="name" class="input-field" bind:value={form.Name}>
-            </div>
-
-            <!-- Email Field -->
-            <div class="mb-6">
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-300">Email</label>
-                <input type="email" id="email" name="email" required autocomplete="email" class="input-field" bind:value={form.Email}>
-            </div>
-
-            <!-- Phone Field -->
-            <div class="mb-6">
-                <label for="phone" class="block mb-2 text-sm font-medium text-gray-300">Phone</label>
-                <input type="number" id="phone" name="phone" required autocomplete="tel" class="input-field" bind:value={form.Phone}>
-            </div>
-
-
-            <!-- dropdown for type of volunteer -->
-            <div class="mb-6">
-                <label for="typeOfVolunteer" class="block mb-2 text-sm font-medium text-gray-300">Type of Volunteer</label>
-                <select id="typeOfVolunteer" name="typeOfVolunteer" required autocomplete="typeOfVolunteer" class="input-field" bind:value={form.ApplicationType}>
-                    {#each volunteerTypes as volunteerType}
-                        <option selected={volunteerType === typeOfVolunteer}>{volunteerType}</option>
-                    {/each}
-                </select>
-            </div>
-
-            {#if form.ApplicationType != typeOfVolunteer}
-                <!-- Desired Position Field -->
-                <div class="mb-6">
-                    <label for="position" class="block mb-2 text-sm font-medium text-gray-300">Desired Position</label>
-                    <input type="text" id="position" name="position" placeholder="" class="input-field" bind:value={form.DesiredPosition} required>
+    
+    <div class="container w-max mx-auto p-10 rounded-xl bg-secondary-800">
+        <div id="form" class="mx-auto rounded-lg overflow-hidden">
+            <h1 class="text-center text-3xl font-bold text-white">Apply to Volunteer</h1>
+            <form action="" enctype="multipart/form-data" class="p-8" on:submit|preventDefault={sendApplication}>
+                <!-- Name Field -->
+                <div class="field-box">
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-300">Name</label>
+                    <input type="text" id="name" name="name" required autocomplete="name" class="input-field" bind:value={form.Name}>
                 </div>
-                
-                <!-- Location -->
-                
-                <label for="dropzone" class="block mb-2 text-sm font-medium text-gray-300">Resume</label>
-                <FileDropzone id="dropzone" class="text-white mb-10" bind:files={form.Resume} accept=".pdf">
-                {#if form.Resume!=''}
-                    <div class="flex flex-col items-center justify-center w-full h-64 rounded-lg cursor-pointer text-white">
-                        <img src="/components/icons/pdf.svg" alt="preview" class="h-4/5"/>
-                        <h1>{form.Resume}</h1>
+
+                <!-- Email Field -->
+                <div class="field-box">
+                    <label for="email" class="block mb-2 text-sm font-medium text-gray-300">Email</label>
+                    <input type="email" id="email" name="email" required autocomplete="email" class="input-field" bind:value={form.Email}>
+                </div>
+
+                <!-- Phone Field -->
+                <div class="field-box">
+                    <label for="phone" class="block mb-2 text-sm font-medium text-gray-300">Phone</label>
+                    <input type="tel" id="phone" name="phone" required autocomplete="tel" class="input-field" bind:value={form.Phone}>
+                </div>
+
+                <!-- Dropdown for type of volunteer -->
+                <div class="field-box">
+                    <label for="typeOfVolunteer" class="block mb-2 text-sm font-medium text-gray-300">Type of Volunteer</label>
+                    <select id="typeOfVolunteer" name="typeOfVolunteer" class="input-field" bind:value={form.ApplicationType}>
+                        {#each volunteerTypes as volunteerType}
+                            <option value={volunteerType}>{volunteerType}</option>
+                        {/each}
+                    </select>
+                </div>
+    
+                <!-- Conditional Rendering based on Volunteer Type -->
+                {#if form.ApplicationType !== 'Volunteer'} <!-- Adjust this condition based on your requirements -->
+                    <div class="field-box">
+                        <label for="position" class="block mb-2 text-sm font-medium text-gray-300">Desired Position</label>
+                        <input type="text" id="position" name="position" class="input-field" bind:value={form.DesiredPosition} required>
                     </div>
+    
+                    <label for="dropzone" class="block mb-2 text-sm font-medium text-gray-300">Resume</label>
+                    <FileDropzone id="dropzone" class="dropzone text-white mb-2 bg-secondary-500 outline-none" on:change={changeHandler} accept=".pdf" border/>                
+                    <!-- uploaded file name -->    
+                    {#if showPreview}
+                        <div class="uploaded-file mx-auto">
+                            <p class="text-primary-50 text-sm text-center mb-4">File Uploaded: {form.Resume.name}</p>
+                        </div>
+                    {/if}
+                    
                 {/if}
-
-                </FileDropzone>
-
-            {/if}
-
-            <button type="submit" class="w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit Application</button>
-
-        </form>
+    
+                <button type="submit" class="w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit Application</button>
+            </form>
+        </div>
     </div>
-</div>
 
-<style>
-    :global(.input-field) {
-        display: block;
+    
+<style lang="postcss">
+
+    .dropzone {
+        padding: 1rem;
+        width: 80%;
+        max-width: 350px;
+
+    }
+
+    .container {
+        margin-top: 8%;
+        max-width: 420px;
+    }
+
+    .uploaded-file {
+        max-width: 75%;     
+    }
+
+    .input-field {
+        display: flex;
         width: 100%;
         padding: 0.5rem;
         border-radius: 0.25rem;
-        @apply focus:border-blue-500 focus:ring focus:ring-red-500 focus:ring-opacity-100;
+        @apply focus:border-blue-500 focus:ring focus:ring-red-500 focus:ring-opacity-100 bg-secondary-500 text-white;
     }
 
-    :global(.input-field:focus) {
+    .input-field:focus {
         outline: none;
     }
 
+    .field-box{
+        @apply mb-4;
+        width: 100%;
+        min-width: 200px;
+        max-width: 350px;
+    }
     
 </style>
