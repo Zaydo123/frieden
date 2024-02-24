@@ -1,7 +1,6 @@
 <script>
 	import { RadioGroup, RadioItem } from "@skeletonlabs/skeleton";
 
-
     let pricePresetsOneTime = [10, 20, 50, 100];
     let pricePresetsMonthly = [5, 10, 20, 50];
 
@@ -10,12 +9,20 @@
 
     let contribution = 0;
 
+    function validateAmount(amount) {
+        amount = Math.round(amount * 100) / 100;
+        return amount;
+    }
+    
+
+    $: contribution = validateAmount(contribution);
+
 
 
 </script>
 
 
-<div class="m-auto pb-10 w-4/5 bg-tertiary-900 rounded">
+<div class="m-auto pb-10 w-4/5 md:w-1/2 lg:w-1/3 xl:w-1/4 bg-tertiary-500 rounded">
 
     <h1 class="text-4xl pt-10 text-center font-bold text-primary-50">Donate</h1>
     
@@ -26,9 +33,9 @@
 
     <!--onetime vs monthly select-->
     <div class="m-auto mt-5 mb-4 w-3/4 flex justify-center gap-2 text-center">
-    <RadioGroup background="bg-tertiary-700" border="border-2 border-primary-600" hover="hover:bg-red-100">
-        <RadioItem bind:group={contributionFrequency} name="justify" value={0} fill="bg-red-500" >One Time</RadioItem>
-        <RadioItem bind:group={contributionFrequency} name="justify" value={1} fill="bg-red-500" >Monthly</RadioItem>
+    <RadioGroup background="bg-tertiary-700" border="border border-secondary-600 text-primary-50" hover="hover:bg-primary-600">
+        <RadioItem bind:group={contributionFrequency} name="justify" value={0} fill="bg-red-500">One Time</RadioItem>
+        <RadioItem bind:group={contributionFrequency} name="justify" value={1} fill="bg-red-500">Monthly</RadioItem>
     </RadioGroup>
     </div>
 
@@ -51,12 +58,12 @@
         {/if}
         
         {#if isCustomAmount}
-            <input type="number" class="text-primary-50 bg-secondary-500 w-20 h-8 p-2 rounded-xl" bind:value={contribution}>
+                <input type="number" min="0.01" step="0.01" max="50000" class="selected-preset text-primary-50 bg-secondary-500 w-20 h-8 p-2 rounded-xl" bind:value={contribution}>
         {:else}
         
-        <button class="other text-primary-50 bg-secondary-500 w-20 h-8 rounded-xl" on:click={() => isCustomAmount = !isCustomAmount}>
-            <p class="text-center">Other</p>
-        </button>
+            <button class="other text-primary-50 bg-secondary-500 w-20 h-8 rounded-xl" on:click={() => isCustomAmount = !isCustomAmount }>
+                <p class="text-center">Other</p>
+            </button>
 
         {/if}
         
@@ -80,7 +87,7 @@
         </div>
         <div class="flex justify-between mt-5">
             <p class="text-primary-50">Total</p>
-            <p class="text-primary-50">${contribution}</p>
+            <p class="text-primary-50">${contribution.toFixed(2)}</p>
         </div>
         <button class="w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-5">Donate</button>  
     </div>
@@ -88,3 +95,11 @@
 
     
 </div>
+
+<style lang="postcss">
+
+    .selected-preset {
+        background-color: rgb(105, 84, 84);
+    }
+
+</style>
