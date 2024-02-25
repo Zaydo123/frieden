@@ -32,10 +32,11 @@
   <svelte:window bind:scrollY={y} bind:innerWidth />
   
   <div class="mb-7 parallax h-screen overflow-hidden flex items-center justify-center transform -translate-y-11">
-    <div class="text-center selection:bg-fuchsia-300 selection:text-fuchsia-900" style="transform: translateY({translateY}px);">
-      <h1 class="lg:text-5xl md:text-4xl gradient-text sm: text-2xl font-bold">Committed to making our planet</h1>
-      <h1 class="lg:text-5xl md:text-4xl sm: text-2xl gradient-text font-bold">a better place.</h1>
+    <div class="text-center selection:bg-red-900 selection:text-white" style="transform: translateY({translateY}px);">
+      <h1 class="lg:text-5xl md:text-4xl gradient-text sm: text-3xl font-bold">For the Future</h1>
     </div>
   </div>
+
+
 
 
