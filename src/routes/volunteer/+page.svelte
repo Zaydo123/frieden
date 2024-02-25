@@ -1,5 +1,4 @@
 <script>
-    import { onMount } from 'svelte';
     import { FileDropzone } from '@skeletonlabs/skeleton';
     import { pb } from '$lib/pocketbase';
     import { Toast, getToastStore } from '@skeletonlabs/skeleton';
@@ -151,13 +150,6 @@
 
     
 <style lang="postcss">
-
-    .dropzone {
-        padding: 1rem;
-        width: 80%;
-        max-width: 350px;
-
-    }
 
     .container {
         margin-top: 8%;

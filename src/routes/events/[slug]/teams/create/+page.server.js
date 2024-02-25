@@ -1,5 +1,4 @@
-import {currentUser, pb } from "$lib/pocketbase"
-import {URL} from "$lib/pubVars"
+import { pb } from "$lib/pocketbase"
 
 export const actions = { 
     default: async ({params,request, locals})=> {

@@ -1,10 +1,12 @@
 import { invalidateAll } from '$app/navigation';
-import {PB_URL} from '$lib/pbConnection';
 import PocketBase from 'pocketbase';
 import { writable } from 'svelte/store';
+import { env } from '$env/dynamic/public';
 
-
+const PB_URL = env.PUBLIC_PB_URL;
 export const pb = new PocketBase(PB_URL);
+
+
 export const currentUser = writable(pb.authStore.model);
 
 

@@ -6,7 +6,6 @@
     import EventCard from './components/EventCard.svelte';
     import {pb} from '$lib/pocketbase';
     import {onMount} from 'svelte';
-    export let data; // Getting from +layout.server.js
 
     let currentEvents = { items: [] };
     let pastEvents = { items: [] };
@@ -28,7 +27,7 @@
 <div class="event-container">
     {#if currentEvents.items.length>0}
     {#each currentEvents.items as event}
-        <EventCard {event} PB_URL={data.PB_URL}/>
+        <EventCard {event}/>
     {/each}
     {:else}
     <p class="text-gray-400 text-center">No upcoming events</p>
@@ -40,7 +39,7 @@
 <div class="event-container">
     {#if pastEvents.items.length>0}
     {#each pastEvents.items as event}
-        <EventCard {event} PB_URL={data.PB_URL}/>
+        <EventCard {event}/>
     {/each}
     {:else}
     <p class="text-gray-400 text-center">No past events</p>

@@ -1,7 +1,9 @@
 <script>
-    export let PB_URL;
     export let event;
 
+    import { env } from '$env/dynamic/public';
+    const PB_URL = env.PUBLIC_PB_URL;
+        
     //get the date from event.EventDate and format it to be english
     let date = new Date(event.EventDate);
     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -10,7 +12,7 @@
 
 <div class="EventCard bg-gray-1000 p-4 rounded-lg shadow-md w-11/12 md:w-3/4 lg:min-h-30 flex flex-col md:flex-row" role="button" tabindex="0" on:click={() => window.location.href = `/events/${event.id}`} on:keydown={(e) => {if (e.key === 'Enter') window.location.href = "/events/${event.id}"}}>
     <div class="EventCard-img w-full md:w-64 h-64 overflow-hidden rounded-md shadow-md flex-shrink-0">
-        <img src={`${PB_URL}/api/files/Events/${event.id}/${event.Images[0]}`} class="object-cover object-center w-full h-full transform hover:scale-105 transition duration-500 ease-in-out" alt="event">
+        <img src={`${PB_URL}api/files/Events/${event.id}/${event.Images[0]}`} class="object-cover object-center w-full h-full transform hover:scale-105 transition duration-500 ease-in-out" alt="event">
     </div>
     <div class="EventCard-content text-left text-white ml-0 md:ml-4 mt-4 md:mt-0">
         <h1 class="text-3xl font-bold mb-2">{event.Title}</h1>
