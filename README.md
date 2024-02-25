@@ -1,28 +1,49 @@
-# Frieden Foundation Website
-![GitHub repo size](https://img.shields.io/github/repo-size/Zaydo123/frieden)
-![GitHub contributors](https://img.shields.io/github/contributors/Zaydo123/frieden)
-![GitHub stars](https://img.shields.io/github/stars/Zaydo123/frieden)
-
-## About
+# Frieden Foundation Website 
 This is the source code for the Frieden Foundation website. It is built using [SvelteKit](https://kit.svelte.dev/).
 
+![GitHub repo size](https://img.shields.io/github/repo-size/Zaydo123/frieden)
+
+## Install
+
+### For Development
+Clone the repository
+```
+git clone https://github.com/Zaydo123/frieden
+```
+Install the dependencies
+```
+npm install
+```
+Run the development server
+```
+npm run dev
+```
+Run Pocketbase Instance in new terminal (install different [executable]("https://pocketbase.io/") if on different OS than MacOS)
+```
+cd pocketbase
+./pocketbase serve
+```
+
+### For Deployment
+#### Using Docker Compose
+```
+docker-compose up -d --build
+```
+
+#### Using Docker Run
+```
+docker build -t friedensite .
+docker run -d -p 3000:3000 frieden
+```
+____
+#### Requried Environment Variables
+| Variable | Description |
+|----------|-------------|
+| PUBLIC_PB_URL | The URL of the public pocketbase instance (include trailing `/`) |
+
+___
 
 ### TODO
 - [ ] Stripe Integration
-- [ ] Resume Upload support on volunteer form
-- [ ] Add a way to donate
-- [ ] Contact Form Backend
-- [ ] Volunteer Form
 - [ ] Join Group Form
-- [ ] Admin Panel (last priority)
-- [ ] User Roles (with admin panel)
-- [ ] Dockerize
-
-### Bugs
-- [ ] Fix EventGroups group creation limit
-  
-### Styling fixes (to do)
-- [ ] Font choice for navbar on desktop
-
-### Notes
-1. make static site in meantime, strip group creation
+- [ ] Admin GUI
