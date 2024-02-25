@@ -32,7 +32,7 @@ docker-compose up -d --build
 
 #### Using Docker Run
 ```
-docker build -t friedensite .
+docker build -t frieden .
 docker run -d -p 3000:3000 frieden
 ```
 ____
