@@ -1,5 +1,6 @@
 <script>
-	import { RadioGroup, RadioItem } from "@skeletonlabs/skeleton";
+	import { RadioGroup, RadioItem, Toast, getToastStore } from "@skeletonlabs/skeleton";
+    const toastStore = getToastStore();
 
     let pricePresetsOneTime = [10, 20, 50, 100];
     let pricePresetsMonthly = [5, 10, 20, 50];
@@ -7,15 +8,29 @@
     let isCustomAmount = false;
     let contributionFrequency = 0; //0 representing one time, 1 representing monthly
 
-    let contribution = 0;
+    let contributionUnvalidated = 1;
+    let contribution = 1;
 
-    function validateAmount(amount) {
+    function formatAmount(amount) {
         amount = Math.round(amount * 100) / 100;
         return amount;
     }
-    
 
-    $: contribution = validateAmount(contribution);
+    function isValueValid(value) {
+        return value >= 1;
+    }
+
+    function handleDonation() {
+        if (!isValueValid(contribution)) {
+            toastStore.trigger({ message: 'Donation must be at least $1.', classes: 'variant-filled-error', });
+            return;
+        }
+    }
+
+    
+    //only set unvalidated to contribution once it has been validated
+    $: contribution = isCustomAmount ? isValueValid(contributionUnvalidated) ? formatAmount(contributionUnvalidated) : 0 : contribution;
+
 
 
 
@@ -42,29 +57,38 @@
 
     <!-- quick donate buttons -->
     <div class="m-auto flex justify-center gap-2 pb-10 text-center w-3/4 flex-wrap">
-
-        {#if contributionFrequency === 0}
+        {#if contributionFrequency == 0}
             {#each pricePresetsOneTime as price}
-                <button class="text-primary-50 bg-secondary-500 w-20 h-8 rounded-xl" on:click={() => { isCustomAmount = false; contribution = price; } }>
-                    <p class="text-center">${price}</p>
-                </button>
+                {#if contribution == price && !isCustomAmount}
+                    <button class="selected-preset text-primary-50 bg-secondary-500 w-20 h-8 rounded-xl" on:click={() => { isCustomAmount = false; contribution = price; } }>
+                        <p class="text-center">${price}</p>
+                    </button>  
+                {:else}
+                    <button class="text-primary-50 bg-secondary-500 w-20 h-8 rounded-xl" on:click={() => { isCustomAmount = false; contribution = price; } }>
+                        <p class="text-center">${price}</p>
+                    </button>
+                {/if}
             {/each}
         {:else}
             {#each pricePresetsMonthly as price}
+            {#if contribution == price && !isCustomAmount}
+                <button class="selected-preset text-primary-50 bg-secondary-500 w-20 h-8 rounded-xl" on:click={() => { isCustomAmount = false; contribution = price; } }>
+                    <p class="text-center">${price}</p>
+                </button>  
+            {:else}
                 <button class="text-primary-50 bg-secondary-500 w-20 h-8 rounded-xl" on:click={() => { isCustomAmount = false; contribution = price; } }>
                     <p class="text-center">${price}</p>
                 </button>
-            {/each}
+            {/if}
+    {/each}
         {/if}
         
         {#if isCustomAmount}
-                <input type="number" min="0.01" step="0.01" max="50000" class="selected-preset text-primary-50 bg-secondary-500 w-20 h-8 p-2 rounded-xl" bind:value={contribution}>
+                <input type="number" min="1" step="0.01" class="selected-preset text-primary-50 bg-secondary-500 w-20 h-8 p-2 rounded-xl" bind:value={contributionUnvalidated}>
         {:else}
-        
             <button class="other text-primary-50 bg-secondary-500 w-20 h-8 rounded-xl" on:click={() => isCustomAmount = !isCustomAmount }>
                 <p class="text-center">Other</p>
             </button>
-
         {/if}
         
 
@@ -75,7 +99,7 @@
         <h2 class="text-primary-50 text-2xl font-bold">Your Donation</h2>
         <div class="flex justify-between mt-5">
             <p class="text-primary-50">Donation Amount</p>
-            <p class="text-primary-50">$10</p>
+            <p class="text-primary-50">${contribution.toFixed(2)}</p>
         </div>
         <div class="flex justify-between mt-5">
             <p class="text-primary-50">Donation Type</p>
@@ -85,16 +109,20 @@
             <p class="text-primary-50">Monthly</p>
             {/if}
         </div>
+        <!-- line -->
+        <div class="w-full h-0.5 bg-primary-50 mt-5 mb-5"></div>
         <div class="flex justify-between mt-5">
             <p class="text-primary-50">Total</p>
             <p class="text-primary-50">${contribution.toFixed(2)}</p>
         </div>
-        <button class="w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-5">Donate</button>  
+        <button class="w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-5" on:click={handleDonation}>Donate</button>
     </div>
 
 
     
 </div>
+
+<Toast />
 
 <style lang="postcss">
 
