@@ -33,7 +33,7 @@
   
   <div class="mb-7 parallax h-screen overflow-hidden flex items-center justify-center transform -translate-y-11">
     <div class="text-center selection:bg-red-900 selection:text-white" style="transform: translateY({translateY}px);">
-      <h1 class="lg:text-5xl md:text-4xl gradient-text sm: text-3xl font-bold">For the Future</h1>
+      <h1 class="lg:text-5xl md:text-4xl gradient-text sm: text-3xl font-bold">Frieden Foundation</h1>
     </div>
   </div>
 

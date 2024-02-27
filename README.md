@@ -40,7 +40,8 @@ ____
 | Variable | Description |
 |----------|-------------|
 | PUBLIC_PB_URL | The URL of the public pocketbase instance (include trailing `/`) |
-
+| PUBLIC_PUB_STRIPE_KEY | The publishable key for the Stripe API |
+| SECRET_STRIPE_KEY | The secret key for the Stripe API |
 ___
 
 ### TODO
