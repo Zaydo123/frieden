@@ -42,9 +42,10 @@ ____
 | PUBLIC_PB_URL | The URL of the public pocketbase instance (include trailing `/`) |
 | PUBLIC_PUB_STRIPE_KEY | The publishable key for the Stripe API |
 | SECRET_STRIPE_KEY | The secret key for the Stripe API |
+|PUBLIC_WEB_URL | The URL of the website |
 ___
 
 ### TODO
-- [ ] Stripe Integration
+- [x] Stripe Integration
 - [ ] Join Group Form
 - [ ] Admin GUI
