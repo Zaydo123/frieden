@@ -77,7 +77,7 @@
 </script>
 
 
-<div class="m-auto pb-10 w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/3 bg-tertiary-500 rounded">
+<div class="m-auto pb-10 w-3/4 md:w-1/2 lg:w-1/2 xl:w-1/3 bg-tertiary-500 rounded">
     <h1 class="text-4xl pt-10 text-center font-bold text-primary-50">Donate</h1>
 
     <div class="m-auto mt-0 w-4/5">
@@ -95,7 +95,7 @@
         </div>
 
         <!-- quick donate buttons -->
-        <div class="m-auto flex justify-center gap-2 pb-10 text-center w-2/3 flex-wrap">
+        <div class="m-auto flex justify-center gap-2 pb-10 text-center w-full sm:w-2/3 max-w-sm flex-wrap">
             {#if contributionFrequency == 0}
                 {#each pricePresetsOneTime as price}
                     {#if contribution == price && !isCustomAmount}
