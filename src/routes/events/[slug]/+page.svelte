@@ -7,7 +7,7 @@
     let slug = data.slug;
 
     let event = {
-        Title: '',
+        Title: '------',
         EventDate: new Date(),
         Location: '',
         MapURL: '',
@@ -20,7 +20,7 @@
     onMount(() => {
         pb.collection('Events').getOne(slug).then((res) => {
             event = res;
-            pageContentElement.innerHTML = marked(event.PageContent);
+            pageContentElement.innerHTML = event.PageContent;
         }).catch((err) => {
             console.log(err);
         });
@@ -32,6 +32,7 @@
     <h1 class="text-white text-3xl font-bold mt-5 mb-3">{event.Title}</h1>
     <p class="text-gray-400">{new Date(event.EventDate).toLocaleString()}</p>
     <a href={event.MapURL} class="text-blue-400 underline cursor-pointer">{event.Location}</a>
+    <div class="w-full h-0.5 bg-primary-50 mt-5 mb-5 opacity-50"></div>
     <div class="page-content text-white mt-5 overflow-auto" bind:this={pageContentElement}></div>
 </div>
 

@@ -10,7 +10,7 @@
     event.EventDate = date.toLocaleDateString('en-US', options);
 </script>
 
-<div class="EventCard bg-gray-1000 p-4 rounded-lg shadow-md w-11/12 md:w-3/4 lg:min-h-30 flex flex-col md:flex-row" role="button" tabindex="0" on:click={() => window.location.href = `/events/${event.id}`} on:keydown={(e) => {if (e.key === 'Enter') window.location.href = "/events/${event.id}"}}>
+<div class="EventCard bg-gray-1000 p-4 rounded-lg shadow-md w-11/12 md:w-3/4 lg:min-h-30 flex flex-col md:flex-row" role="button" tabindex="0" on:click={() => window.location.href = `/events/${event.id}/`} on:keydown={(e) => {if (e.key === 'Enter') window.location.href = `/events/${event.id}/`}}>
     <div class="EventCard-img w-full md:w-64 h-64 overflow-hidden rounded-md shadow-md flex-shrink-0">
         <img src={`${PB_URL}api/files/Events/${event.id}/${event.Images[0]}`} class="object-cover object-center w-full h-full transform hover:scale-105 transition duration-500 ease-in-out" alt="event">
     </div>

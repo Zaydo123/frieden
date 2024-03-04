@@ -62,15 +62,15 @@
             {/if}
             {#if innerWidth <= mobileWidth }
                 <div class={`bg-primary-500 mobile-menu absolute top-[65px] left-0 right-0 shadow-lg z-40 p-4 transition-all ease-in-out duration-500 ${isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                    <a href="/" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Home</a>
-                    <a href="/donate" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Donate</a>
-                    <a href="/volunteer" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Volunteer</a>
-                    <a href="/events" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Events</a>
-                    <a href="/#contact" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Contact</a>
+                    <a href="/" class="mobile-nav-link" on:click={() => toggleMenu(true)} tabindex={isMenuOpen ? 0 : -1}>Home</a>
+                    <a href="/donate" class="mobile-nav-link" on:click={() => toggleMenu(true)} tabindex={isMenuOpen ? 0 : -1}>Donate</a>
+                    <a href="/volunteer" class="mobile-nav-link" on:click={() => toggleMenu(true)} tabindex={isMenuOpen ? 0 : -1}>Volunteer</a>
+                    <a href="/events" class="mobile-nav-link" on:click={() => toggleMenu(true)} tabindex={isMenuOpen ? 0 : -1}>Events</a>
+                    <a href="/#contact" class="mobile-nav-link" on:click={() => toggleMenu(true)} tabindex={isMenuOpen ? 0 : -1}>Contact</a>
                     {#if $currentUser}
-                        <a href="/logout" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Sign Out</a>
+                        <a href="/logout" class="mobile-nav-link" on:click={() => toggleMenu(true)} tabindex={isMenuOpen ? 0 : -1}>Sign Out</a>
                     {:else}
-                        <a href="/login" class="mobile-nav-link" on:click={() => toggleMenu(true)}>Login</a>
+                        <a href="/login" class="mobile-nav-link" on:click={() => toggleMenu(true)} tabindex={isMenuOpen ? 0 : -1}>Login</a>
                     {/if}
                 </div>
             {/if}

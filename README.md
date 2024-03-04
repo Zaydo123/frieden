@@ -49,3 +49,4 @@ ___
 - [x] Stripe Integration
 - [ ] Join Group Form
 - [ ] Admin GUI
+- [ ] GDPR Compliance (Data erasure requests)
