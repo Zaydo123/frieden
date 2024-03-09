@@ -5,7 +5,7 @@ beta.friedenfoundation.org {
         }
 }
 
-api.friedenfoundation.org{
+api.friedenfoundation.org {
         reverse_proxy pocketbase:8090 {
             header_down Strict-Transport-Security max-age=31536000;
             header_up X-Real-IP {remote}
