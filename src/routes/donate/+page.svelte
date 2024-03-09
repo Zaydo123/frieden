@@ -1,5 +1,5 @@
 <svelte:head>
-    <script src="https://js.stripe.com/v3/" defer></script>
+    <script src="https://js.stripe.com/v3/"></script>
 </svelte:head>
 
 <script>
