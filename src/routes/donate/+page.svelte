@@ -7,14 +7,8 @@
     import { env } from '$env/dynamic/public';
     const { PUBLIC_PUB_STRIPE_KEY } = env;
     import { browser } from '$app/environment';
-    import { onMount } from "svelte";
     let isCheckingOut = false;
     let stripe;
-
-
-    onMount(() => {
-        stripe = new Stripe(PUBLIC_PUB_STRIPE_KEY);
-    });
 
     const toastStore = getToastStore();
 
@@ -50,7 +44,7 @@
 
         const { clientSecret } = await response.json();
         isCheckingOut = true;
-        
+        stripe = new Stripe(PUBLIC_PUB_STRIPE_KEY);
         const checkout = await stripe.initEmbeddedCheckout({
             clientSecret,
         });
