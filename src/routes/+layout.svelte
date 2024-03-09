@@ -33,7 +33,7 @@
 
 <svelte:window bind:outerWidth bind:innerWidth bind:outerHeight bind:innerHeight />
 
-<div class={`nav-container ${isMenuOpen ? 'is-menu-open' : ''}`}>
+<div class={`nav-container ${isMenuOpen ? 'is-menu-open' : ''} transition-all ease-in-out duration-500`}>
     <div class="nav-header flex items-center p-4 pl-[5%] bg-primary-500 shadow-md fixed top-0 left-0 right-0 z-50">
         <div class="align-left flex items-center">
             <a href="/" class="flex items-center">
@@ -80,6 +80,25 @@
 </div>
 
 <style lang="postcss">
+
+    /*animate opacity to 1 after page load using keyframes*/
+    .nav-container {
+        @apply fixed top-0 left-0 right-0 z-50;
+        animation-iteration-count: 1;
+        animation-duration: 2s;
+        animation-name: fadeIn;
+
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
     .nav-link {
         @apply text-error-50 text-base no-underline px-4 transition-all ease-in-out hover:text-red-500;
     }

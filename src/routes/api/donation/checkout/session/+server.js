@@ -9,7 +9,7 @@ export async function POST(event) {
     const { request } = event;
     //body is readablestream, so we need to parse it
     const body = await request.json();
-    console.log(body);
+    //console.log(body);
 
     let checkoutOptions = {
       mode: 'payment',
@@ -41,8 +41,8 @@ export async function POST(event) {
     }
 
 
-    console.log(checkoutOptions);
-    console.log(checkoutOptions.line_items[0].price_data)
+    //console.log(checkoutOptions);
+    //console.log(checkoutOptions.line_items[0].price_data)
 
 
     // If a customer is provided, attach it to the checkout options

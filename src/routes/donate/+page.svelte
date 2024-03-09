@@ -1,7 +1,3 @@
-<svelte:head>
-    <script src="https://js.stripe.com/v3/"></script>
-</svelte:head>
-
 <script>
     import { RadioGroup, RadioItem, Toast, getToastStore } from "@skeletonlabs/skeleton";
     import { env } from '$env/dynamic/public';
@@ -11,9 +7,10 @@
     let isCheckingOut = false;
     let stripe;
 
-    onMount(() => {
+
+    function initStripe(node) {
         stripe = new Stripe(PUBLIC_PUB_STRIPE_KEY);
-    });
+    }
 
     const toastStore = getToastStore();
 
@@ -50,7 +47,7 @@
         const { clientSecret } = await response.json();
 
         const checkout = await stripe.initEmbeddedCheckout({
-          clientSecret,
+            clientSecret,
         });
         
         // Mount Checkout
@@ -75,6 +72,11 @@
 
 
 </script>
+
+<svelte:head>
+    <script src="https://js.stripe.com/v3/" use:initStripe></script>
+</svelte:head>
+
 
 
 <div class="m-auto pb-10 w-3/4 md:w-1/2 lg:w-1/2 xl:w-1/3 bg-tertiary-500 rounded">

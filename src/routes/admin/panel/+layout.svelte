@@ -20,8 +20,8 @@
 </script>
 
 
-<div class="body flex flex-row gap-3">
-    <nav class="flex flex-col text-primary-50 w-fit h-screen gap-2">
+<div class="body flex flex-col sm:flex-row gap-3 h-4/5 sm:h-screen pb-10 sm:pb-0">
+    <nav class="flex flex-col text-primary-50 w-fit  gap-2">
         
             <div class="flex flex-row flex-wrap sm:flex-col justify-center p-9 bg-secondary-500 gap-2">
                 <h2 class="w-full text-2xl font-bold">Quick Links</h2>
@@ -37,7 +37,7 @@
             </div>
             
     </nav>
-    <div class="mt-2">
+    <div class="mt-2 w-4/5 max-w-full">
         <slot></slot>
     </div>
 </div>
