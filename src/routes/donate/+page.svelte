@@ -1,16 +1,14 @@
+<svelte:head>
+    <script src="https://js.stripe.com/v3/"></script>
+</svelte:head>
+
 <script>
     import { RadioGroup, RadioItem, Toast, getToastStore } from "@skeletonlabs/skeleton";
     import { env } from '$env/dynamic/public';
     const { PUBLIC_PUB_STRIPE_KEY } = env;
     import { browser } from '$app/environment';
-    import { onMount } from "svelte";
     let isCheckingOut = false;
     let stripe;
-
-
-    function initStripe(node) {
-        stripe = new Stripe(PUBLIC_PUB_STRIPE_KEY);
-    }
 
     const toastStore = getToastStore();
 
@@ -45,7 +43,8 @@
         });
 
         const { clientSecret } = await response.json();
-
+        isCheckingOut = true;
+        stripe = new Stripe(PUBLIC_PUB_STRIPE_KEY);
         const checkout = await stripe.initEmbeddedCheckout({
             clientSecret,
         });
@@ -61,7 +60,6 @@
         }
 
         if(browser){
-            isCheckingOut = true;
             initialize();
         }
         
@@ -72,11 +70,6 @@
 
 
 </script>
-
-<svelte:head>
-    <script src="https://js.stripe.com/v3/" use:initStripe></script>
-</svelte:head>
-
 
 
 <div class="m-auto pb-10 w-3/4 md:w-1/2 lg:w-1/2 xl:w-1/3 bg-tertiary-500 rounded">
@@ -156,7 +149,7 @@
                 <p class="text-primary-50">Total</p>
                 <p class="text-primary-50">${contribution.toFixed(2)}</p>
             </div>
-            <button class="w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-5" on:click={handleDonation}>Donate</button>
+            <button class="w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-5" on:click={ () => handleDonation() }>Donate</button>
         </div>`
     {/if}
     

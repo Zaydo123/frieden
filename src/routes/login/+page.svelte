@@ -20,7 +20,7 @@
 <main class="flex flex-col items-center justify-center m-auto">
     <div class="ct bg-tertiary-900 rounded text-center">
         <h2 class="text-white">Sign In</h2>
-        <button on:click={loginWithGoogle}>
+        <button on:click={()=>{loginWithGoogle()}}>
             <img src={'/components/signin-assets/Web/png@3x/dark/web_dark_sq_ctn@3x.png'} alt="Google Login"/>
             <p class="text-secondary-400 text-left">Allow Popups to Sign In</p>
         </button>

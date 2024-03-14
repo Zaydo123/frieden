@@ -1,3 +1,10 @@
+beta.friedenfoundation.org {
+        reverse_proxy svelte-app:3000 {
+            header_down Strict-Transport-Security max-age=31536000;
+            header_up X-Real-IP {remote}
+        }
+}
+
 friedenfoundation.org {
         reverse_proxy svelte-app:3000 {
             header_down Strict-Transport-Security max-age=31536000;
@@ -5,9 +12,15 @@ friedenfoundation.org {
         }
 }
 
-api.friedenfoundation.org{
-        reverse_proxy pocketbase:8090 {
-            header_down Strict-Transport-Security max-age=31536000;
-            header_up X-Real-IP {remote}
+
+api.friedenfoundation.org {
+    request_body {
+        max_size 10MB
+    }
+    reverse_proxy pocketbase:8090 {
+        transport http {
+            read_timeout 360s
         }
+    }
 }
+
