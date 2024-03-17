@@ -11,7 +11,7 @@
     {
       title: "Refugee Care",
       description:
-        "We acknowledge the hardships displaced people endure and are dedicated to improving their living circumstances and well-being. We help individuals who have suffered greatly find hope and support.",
+        "We acknowledge the hardships displaced people endure and are dedicated to improving their living circumstances and well-being.",
       image: "/home/components/meaningfulWork/wires.webp",
     },
     {
@@ -49,9 +49,9 @@
   <div>
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 xl:w-max gap-8">
       {#each rows as row, index}
-        <div class="work-row relative flex flex-col items-center justify-center p-8 rounded-xl w-full h-96 md:flex-row md:w-96 md:items-start md:text-left hover:shadow-lg" role="cell" tabindex="0">
+        <div class="work-row relative flex flex-col items-center justify-center p-5 rounded-xl w-full h-96 md:flex-row md:w-96 md:items-start md:text-left hover:shadow-lg" role="cell" tabindex="0">
           <img src={row.image} alt="{row.title}" class="absolute inset-0 w-full h-full object-cover rounded-xl">
-          <div class="relative z-10 text-center md:text-left md:ml-4">
+          <div class="relative z-10 text-center md:text-left md:ml-4 p-3">
             <h2 class="title text-2xl text-white font-bold lg:mb-4 selection:bg-warning-500">
               {row.title}
             </h2>
@@ -83,20 +83,19 @@
     transition: opacity 0.5s;
   }
 
-
+  /* Small Screens*/
   @media (max-width: 768px) {
     .title {
       transition: all .5s;
-      @apply mt-20 sm:mt-14;
+      margin-top: 6rem;
     }
-
+    
     .work-row:hover .title {
       @apply mt-0;
     }
-
+    
   }
-
-
+  
   .work-row:hover {
     filter: drop-shadow(0 0 0.5rem rgba(0, 0, 0, 0.5));
   }

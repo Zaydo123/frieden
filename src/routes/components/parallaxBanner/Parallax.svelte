@@ -44,12 +44,17 @@
 
 <svelte:window bind:scrollY={y} bind:innerWidth />
 
-<div class="mb-7 parallax h-screen overflow-hidden flex items-center justify-center transform -translate-y-11">
-  <div
-    class="text-center selection:bg-red-900 selection:text-white"
-    style="transform: translateY({translateY}px);"
-    class:show-text={showText}
-  >
-    <h1 class="lg:text-5xl md:text-4xl gradient-text parrallax-text sm: text-3xl font-bold">Frieden Foundation</h1>
+<div class="mb-7 h-screen overflow-hidden flex items-center justify-center transform -translate-y-11">
+  
+  {#if innerWidth > 768}
+  <div class="text-center selection:bg-red-900 selection:text-white" style="transform: translateY({translateY}px);" class:show-text={showText}>
+    <h1 class="lg:text-5xl md:text-4xl gradient-text sm: text-3xl font-bold">Frieden Foundation</h1>
   </div>
+  {:else}
+    <div class="text-center selection:bg-red-900 selection:text-white" class:show-text={showText}>
+      <h1 class="lg:text-5xl md:text-4xl gradient-text sm: text-3xl font-bold">Frieden Foundation</h1>
+    </div>  
+  {/if}
+
+
 </div>
