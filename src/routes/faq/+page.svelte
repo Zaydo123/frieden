@@ -21,7 +21,7 @@
 
 <div class="bg-tertiary-900 py-10 px-3 lg:px-8 lg:py-16" >
 
-    <h2 class="text-success-50 text-4xl sm:mb-10 text-center font-bold selection:bg-warning-500 mt-4 mb-4">Freqently Asked Questions</h2>
+    <h2 class="text-success-50 text-4xl sm:mb-10 text-center font-bold selection:bg-warning-500 mt-4 mb-4">Frequently Asked Questions</h2>
 
     <div class="faq-container m-auto flex flex-col gap-8">
         {#each QA as { question, sub, answer }, index}
