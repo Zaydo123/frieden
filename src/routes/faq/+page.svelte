@@ -1,4 +1,7 @@
 <!-- FAQ PAGE -->
+<svelte:head>
+    <title>Frieden Foundation | FAQ</title>
+</svelte:head>
 
 <script>
     let message = `lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec dui eget nunc tincidunt aliquam nec nec libero dolor sit amet, consectetur adipiscing elit. Nulla nec dui eget nunc tincidunt aliquam nec nec libero`;
@@ -12,7 +15,7 @@
         {
             question:"Your Donation's Impact",
             sub: "How will my donation be used?",
-            answer: "We strive to ensure that the maximum possible amount of your donation goes directly to supporting our cause. On average, 90% of each donation goes directly to those in need, while the remaining 10% covers fundraising and operation costs. We are committed to being transparent about our expenses and regularly share our financial information on our website, annual reports, and other communication channels. Additionally, we continuously work to improve our efficiency and reduce our overhead costs to ensure that we maximize the impact of every dollar donated. We deeply appreciate your support and are always happy to answer any questions you may have. We have partnered with UNRWA and UNICEF in providing aid directly to displaced families. At Frieden Foundation we provide humanitarian aid to Refugee camps in Jordan."
+            answer: "We strive to ensure that the maximum possible amount of your donation goes directly to supporting our cause. On average, 90% of each donation goes directly to those in need, while the remaining 10% covers fundraising and operation costs. We are committed to being transparent about our expenses and regularly share our financial information on our website, annual reports, and other communication channels. Additionally, we continuously work to improve our efficiency and reduce our overhead costs to ensure that we maximize the impact of every dollar donated. We deeply appreciate your support and are always happy to answer any questions you may have. We have partnered with UNRWA and UNICEF in providing aid directly to displaced families. At Frieden Foundation we primarily focus on providing humanitarian aid to Refugee camps in Jordan and other countries worldwide."
         }
 
     ]

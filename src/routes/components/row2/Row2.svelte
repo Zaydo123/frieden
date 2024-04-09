@@ -12,7 +12,7 @@
       title: "Refugee Care",
       description:
         "We acknowledge the hardships displaced people endure and are dedicated to improving their living circumstances and well-being.",
-      image: "/home/components/meaningfulWork/wires.webp",
+      image: "/home/components/meaningfulWork/friedenRefugeeCamp.png",
     },
     {
       title: "Community Integration",
