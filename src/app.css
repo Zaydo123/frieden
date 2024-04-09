@@ -39,7 +39,7 @@ h2 {
 }
 
 /*make an underline that will use keyframes to spawn and grow from left to right smoothly under a word. */
-.underline {
+.underline-custom {
     position: relative;
     display: inline-block;
     padding-bottom: 3px;
@@ -49,7 +49,7 @@ h2 {
     transition: color 0.5s ease-in-out;
 }
 
-.underline::after {
+.underline-custom::after {
     content: '';
     position: absolute;
     left: 0;
@@ -62,11 +62,11 @@ h2 {
     transition: transform 0.5s ease-in-out;
 }
 
-.underline:hover {
+.underline-custom:hover {
     color: #ff0000;
 }
 
-.underline:hover::after {
+.underline-custom:hover::after {
     transform: scaleX(1);
     transform-origin: left;
 }

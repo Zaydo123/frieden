@@ -1,5 +1,6 @@
 <svelte:head>
     <script src="https://js.stripe.com/v3/"></script>
+    <title>Frieden Foundation | Donate</title>
 </svelte:head>
 
 <script>
