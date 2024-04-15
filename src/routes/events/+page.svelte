@@ -1,5 +1,7 @@
 <svelte:head>
     <title>Frieden Foundation | Events</title>
+    <meta name="description" content="Join our upcoming events and learn more about our past ones!">
+    <meta name="keywords" content="events, charity events, fundraising events, community events, Frieden Foundation events">
 </svelte:head>
 
 <script>

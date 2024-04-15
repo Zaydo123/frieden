@@ -1,3 +1,8 @@
+<svelte:head>
+    <meta name="description" content="Frieden Foundation is a non-profit organization dedicated to providing humanitarian aid to displaced peoples, including refugees, asylum seekers, and internally displaced persons.">
+    <meta name="keywords" content="Frieden Foundation, charity, humanitarian aid, refugees, asylum seekers, internally displaced persons">
+</svelte:head>
+
 <div class="max-w-4xl mx-auto p-8 text-primary-50">
     <div class="box text-lg mb-6 bg-secondary-600 p-10">
         <h2 class="text-3xl font-bold text-center mb-6">What We Do</h2>

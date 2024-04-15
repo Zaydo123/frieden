@@ -40,11 +40,20 @@
   .show-text .gradient-text {
     opacity: 1;
   }
+
+  @media (max-width: 768px) {
+    
+    .section {
+      height: 84vh;
+      padding-top:70px;
+    }
+  }
+
 </style>
 
 <svelte:window bind:scrollY={y} bind:innerWidth />
 
-<div class="mb-7 h-screen overflow-hidden flex items-center justify-center transform -translate-y-11">
+<div class="section mb-7 h-screen overflow-hidden flex items-center justify-center transform -translate-y-11">
   
   {#if innerWidth > 768}
   <div class="text-center selection:bg-red-900 selection:text-white" style="transform: translateY({translateY}px);" class:show-text={showText}>

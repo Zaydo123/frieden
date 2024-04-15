@@ -1,6 +1,8 @@
 <!-- FAQ PAGE -->
 <svelte:head>
     <title>Frieden Foundation | FAQ</title>
+    <meta name="description" content="Frequently asked questions about Frieden Foundation, including transparency, accountability, and donation impact.">
+    <meta name="keywords" content="FAQ, frequently asked questions, Frieden Foundation, transparency, accountability, donation impact">
 </svelte:head>
 
 <script>
