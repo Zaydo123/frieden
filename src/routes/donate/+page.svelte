@@ -158,6 +158,7 @@
         <div class="m-auto w-4/5 mt-5 text-secondary-400 text-sm">
             <p class="text-center">Frieden Foundation is a 501(c)(3) non-profit organization. Your contribution is tax-deductible to the extent allowed by law.</p>
             <p class="text-center">Tax ID: 93-2292269.</p>
+            <p class="text-center text-red-500 underline pt-4"><a href="https://billing.stripe.com/p/login/9AQg0g86D43Fdws8ww" target="_blank" >Manage payments</a></p>
         </div>
 
     {/if}
