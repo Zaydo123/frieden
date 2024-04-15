@@ -2,6 +2,8 @@
 This is the source code for the Frieden Foundation website. It is built using [SvelteKit](https://kit.svelte.dev/).
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/Zaydo123/frieden)
+![Build](https://github.com/Zaydo123/frieden/actions/workflows/docker-image.yml/badge.svg)
+
 
 ## Install
 
@@ -30,7 +32,7 @@ cd pocketbase
 docker-compose up -d --build
 ```
 
-#### Using Docker Run
+#### Using Docker Run / Building Image
 ```
 docker build -t frieden .
 docker run -d -p 3000:3000 frieden
@@ -44,9 +46,3 @@ ____
 | SECRET_STRIPE_KEY | The secret key for the Stripe API |
 |PUBLIC_WEB_URL | The URL of the website |
 ___
-
-### TODO
-- [x] Stripe Integration
-- [ ] Join Group Form
-- [ ] Admin GUI
-- [ ] GDPR Compliance (Data erasure requests)

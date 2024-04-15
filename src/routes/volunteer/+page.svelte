@@ -1,3 +1,9 @@
+<svelte:head>
+    <title>Frieden Foundation | Volunteer</title>
+    <meta name="description" content="Sign up to volunteer at Frieden Foundation!">
+    <meta name="keywords" content="volunteer, volunteer opportunities, volunteer application, Frieden Foundation volunteer">
+</svelte:head>
+
 <script>
     import { FileDropzone } from '@skeletonlabs/skeleton';
     import { pb } from '$lib/pocketbase';

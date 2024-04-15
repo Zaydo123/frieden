@@ -1,6 +1,8 @@
 <svelte:head>
     <script src="https://js.stripe.com/v3/"></script>
     <title>Frieden Foundation | Donate</title>
+    <meta name="description" content="Donate to Frieden Foundation! Choose a one-time or monthly donation amount to help us in our mission to help displaced peoples.">
+    <meta name="keywords" content="donate, donation, charity, humanitarian aid, Frieden Foundation">
 </svelte:head>
 
 <script>
