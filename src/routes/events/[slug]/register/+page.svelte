@@ -219,7 +219,7 @@
     {#if paymentWindowOpen}
     <div class="m-auto bg-gray-1000 w-3/4 md:w-1/3 rounded-lg text-white p-5 mt-5">
         <h1 class="text-2xl text-center font-bold">Payment</h1>
-        <div class="mt-10" id="checkout"></div>
+        <div class="mt-10 pb-4" id="checkout"></div>
     </div>
     {/if}
 
