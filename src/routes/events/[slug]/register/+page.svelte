@@ -1,17 +1,41 @@
+<svelte:head>
+    <script src="https://js.stripe.com/v3/"></script>
+    <title>Frieden Foundation | Event Registration</title>
+    <meta name="description" content="Register for the upcoming event!">
+    <meta name="keywords" content="Event, event registration, event registration form, Frieden Foundation event">
+</svelte:head>
+
 <script>
+    import { Toast, getToastStore } from '@skeletonlabs/skeleton';
+    const toastStore = getToastStore();
     import {pb} from '$lib/pocketbase';
-    import {onMount} from 'svelte';
+    import { browser } from '$app/environment';
+    import { env } from '$env/dynamic/public';
+    const { PUBLIC_PUB_STRIPE_KEY } = env;
+    import { onMount } from 'svelte';
+
+    let stripe;
 
     export let data;
     let slug = data.slug;
     let groupName;
+    let email;
     let groupMembers = [];
     let eventHasTShirt = false;
-    let minMembers;
-    let maxMembers;
+    let minMembers = 1;
+    let maxMembers = 1;
     let price = 0;
     let teamRequired = false;
+    let isCheckingOut = false;
     let registrationDeadline = new Date();
+    let paymentWindowOpen = false;
+
+    async function openPaymentWindow() {
+        paymentWindowOpen = true;
+        if (browser) {
+            initialize();
+        }
+    }
 
     let individualCost = 0;
     let groupCost = 0;
@@ -23,6 +47,8 @@
     function addMember() {
         if (groupMembers.length < maxMembers) {
             groupMembers = [...groupMembers, { name: '', tShirtSize: 'M' }]; // Initialized with default values
+        } else {
+            toastStore.trigger({message: `Maximum group size is ${maxMembers}`, classes: 'variant-filled-error'});
         }
         costLogic();
     }
@@ -44,6 +70,33 @@
         });
     });
     
+
+    async function initialize() {
+        toastStore.trigger({message: 'Initializing payment...', classes: 'variant-filled-info'});
+        const response = await fetch("/api/donation/checkout/session", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                amount: price,
+                frequency: 0,
+                type: "event",
+                eventId: slug,
+                members: groupMembers,
+            }),
+        });
+
+        const { clientSecret } = await response.json();
+        isCheckingOut = true;
+        stripe = new Stripe(PUBLIC_PUB_STRIPE_KEY);
+        const checkout = await stripe.initEmbeddedCheckout({
+            clientSecret,
+        });
+        
+        // Mount Checkout
+        checkout.mount('#checkout');
+    }
     
     function costLogic() {
         if (teamRequired) {
@@ -73,21 +126,34 @@
 
     async function handleSubmit() {
         //submit to same page with post request
-
         let response = await fetch(`/events/${slug}/register`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                email: email,
                 groupName: groupName,
                 members: groupMembers,
                 totalCost: price
             })
         })
-        .then(response => response.json())
+        .then(function(response){
+
+            if(!response.ok){
+                toastStore.trigger({message: 'Registration failed. Please try again later.', classes: 'variant-filled-error'});
+            } else {
+                paymentWindowOpen = true;
+                openPaymentWindow();
+            }
+        })
         .then(data => console.log(data))
-        .catch(error => console.error('Error:', error));
+        .catch(error => toastStore.trigger({message: 'Registration failed. Please try again later.', classes: 'variant-filled-error'}) );
+
+
+
+        
+
     }
 
 
@@ -100,6 +166,11 @@
         <div class="mb-4">
             <label class="block text-gray-200 text-sm font-bold mb-2 mt-5" for="group-name" >Group Name</label>
             <input class="bg-transparent border rounded w-full py-2 px-3 text-gray-50 leading-tight" id="group-name" type="text" placeholder="Group Name" name="group-name" bind:value={groupName} required />
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-200 text-sm font-bold mb-2" for="email">Email</label>
+            <input class="bg-transparent border rounded w-full py-2 px-3 text-gray-50 leading-tight" id="email" type="email" placeholder="Email" name="email" bind:value={email} required />
         </div>
 
         <div class="mb-4">
@@ -142,5 +213,15 @@
             <p class="text-gray-200 text-sm">Total: ${price}</p>
         </div>
 
+
     </form>
+
+    {#if paymentWindowOpen}
+    <div class="m-auto bg-gray-1000 w-3/4 md:w-1/3 rounded-lg text-white p-5 mt-5">
+        <h1 class="text-2xl text-center font-bold">Payment</h1>
+        <div class="mt-10" id="checkout"></div>
+    </div>
+    {/if}
+
+    <Toast/>
 </div>

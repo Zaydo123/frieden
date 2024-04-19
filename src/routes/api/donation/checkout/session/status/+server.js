@@ -17,6 +17,7 @@ export async function GET ({request}) {
 
     try {
         session = await stripe.checkout.sessions.retrieve(session_id);
+
     } catch(e){
         return generateBasicHTTPError(e);
     }

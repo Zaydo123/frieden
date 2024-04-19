@@ -1,7 +1,9 @@
 import {stripe} from '$lib/stripe';
 import { env } from '$env/dynamic/public';
 import { generateBasicHTTPError } from '$lib/helpers';
-const { PUBLIC_WEB_URL } = env;
+const { PUBLIC_WEB_URL, PRIVATE_PB_ADMIN_EMAIL, PRIVATE_PB_ADMIN_PASSWORD} = env;
+import {pb} from '$lib/pocketbase';
+
 
 export async function POST(event) {
     //event.locals.user is an option! remember for later
@@ -39,6 +41,26 @@ export async function POST(event) {
       checkoutOptions.mode = 'subscription';
       checkoutOptions.line_items[0].price_data.recurring = { interval: 'month' };
     }
+
+    if(body.type != undefined && body.type === "event"){
+      checkoutOptions.line_items[0].price_data.product_data.name = "Event Registration / Donation";
+      //verify event price is accurate to db
+      if(body.eventPrice != undefined){
+        pb.admins.authWithPassword(PRIVATE_PB_ADMIN_EMAIL, PRIVATE_PB_ADMIN_PASSWORD);
+        const event = await pb.collection('Events').getOne(slug);
+        const {
+            IndividualCost, GroupCost, TeamRequired, RegistrationDeadline
+        } = event;
+
+        let totalCost = TeamRequired ? GroupCost : IndividualCost * body.members.length;
+        if (totalCost !== body.totalCost) {
+            return new Response('Total cost does not match', { status: 400 });
+        }
+
+      }
+
+    }
+
 
 
     //console.log(checkoutOptions);

@@ -32,12 +32,26 @@ export async function POST({ request, params }) {
             }
         });
 
+        if(body.email) {
+            //validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(body.email)) {
+                return new Response('Invalid email', { status: 400 });
+            } 
+
+        } else {
+            return new Response('Email required', { status: 400 });
+        }
+
         if (!body.groupName) {
             return new Response('Group name required', { status: 400 });
         }
-        const adminAuthRecord = await pb.admins.authWithPassword(env.PRIVATE_PB_ADMIN_EMAIL, env.PRIVATE_PB_ADMIN_PASSWORD);
-        const response = await pb.collection('EventRegistrations').create({
+
+        await pb.admins.authWithPassword(env.PRIVATE_PB_ADMIN_EMAIL, env.PRIVATE_PB_ADMIN_PASSWORD);
+
+        await pb.collection('EventRegistrations').create({
             Event: slug,
+            Email: body.email,
             GroupName: body.groupName,
             Attendees: body.members,
             TotalCost: totalCost,
@@ -46,7 +60,9 @@ export async function POST({ request, params }) {
 
         return new Response('Registered', { status: 200 });
     } catch (err) {
-        console.error("Error in event registration:", err);
+
         return new Response(err.message, { status: 400 });
     }
+
+    
 }
