@@ -45,4 +45,6 @@ ____
 | PUBLIC_PUB_STRIPE_KEY | The publishable key for the Stripe API |
 | SECRET_STRIPE_KEY | The secret key for the Stripe API |
 |PUBLIC_WEB_URL | The URL of the website |
-___
+| PRIVATE_PB_ADMIN_EMAIL | The email of the admin user for the pocketbase instance |
+PRIVATE_PB_ADMIN_PASSWORD | The password of the admin user for the pocketbase instance |
+
