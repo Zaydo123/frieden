@@ -49,8 +49,13 @@ export async function POST(event) {
         pb.admins.authWithPassword(PRIVATE_PB_ADMIN_EMAIL, PRIVATE_PB_ADMIN_PASSWORD);
         const event = await pb.collection('Events').getOne(slug);
         const {
-            IndividualCost, GroupCost, TeamRequired, RegistrationDeadline
+            IndividualCost, GroupCost, TeamRequired, RegisteredCount, GroupMaximumSize
         } = event;
+
+        //if too many people are registered, return an error
+        if(body.members.length + RegisteredCount > GroupMaximumSize){
+          return new Response('Event is at capacity', { status: 400 });
+        }
 
         let totalCost = TeamRequired ? GroupCost : IndividualCost * body.members.length;
         if (totalCost !== body.totalCost) {
