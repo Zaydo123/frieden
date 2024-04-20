@@ -1,6 +1,7 @@
 import { pb } from '$lib/pocketbase';
 import { env } from '$env/dynamic/private';
 
+
 export async function POST({ request, params }) {
     const { slug } = params;
     const body = await request.json();  // This replaces the custom streamToJson function
@@ -47,9 +48,9 @@ export async function POST({ request, params }) {
             return new Response('Group name required', { status: 400 });
         }
 
-        await pb.admins.authWithPassword(env.PRIVATE_PB_ADMIN_EMAIL, env.PRIVATE_PB_ADMIN_PASSWORD);
+        await pb.admins.authWithPassword(env.SECRET_PB_ADMIN_EMAIL, env.SECRET_PB_ADMIN_PASSWORD);
 
-        await pb.collection('EventRegistrations').create({
+        let res = await pb.collection('EventRegistrations').create({
             Event: slug,
             Email: body.email,
             GroupName: body.groupName,
@@ -58,7 +59,7 @@ export async function POST({ request, params }) {
             Paid: false
         });
 
-        return new Response('Registered', { status: 200 });
+        return new Response(`{"Registered":true, "id":"${res.id}"}`, { status: 200 });
     } catch (err) {
 
         return new Response(err.message, { status: 400 });

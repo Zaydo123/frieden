@@ -1,8 +1,11 @@
 import {stripe} from '$lib/stripe';
-import { env } from '$env/dynamic/public';
 import { generateBasicHTTPError } from '$lib/helpers';
-const { PUBLIC_WEB_URL, PRIVATE_PB_ADMIN_EMAIL, PRIVATE_PB_ADMIN_PASSWORD} = env;
 import {pb} from '$lib/pocketbase';
+
+import { env } from '$env/dynamic/private';
+const { SECRET_PB_ADMIN_EMAIL, SECRET_PB_ADMIN_PASSWORD } = env;
+import {env as publicEnv} from '$env/dynamic/public';
+const {PUBLIC_WEB_URL} = publicEnv;
 
 
 export async function POST(event) {
@@ -41,24 +44,23 @@ export async function POST(event) {
       checkoutOptions.mode = 'subscription';
       checkoutOptions.line_items[0].price_data.recurring = { interval: 'month' };
     }
-
-    if(body.type != undefined && body.type === "event"){
+    if(body.type === "event"){
       checkoutOptions.line_items[0].price_data.product_data.name = "Event Registration / Donation";
       //verify event price is accurate to db
-      if(body.eventPrice != undefined){
-        pb.admins.authWithPassword(PRIVATE_PB_ADMIN_EMAIL, PRIVATE_PB_ADMIN_PASSWORD);
-        const event = await pb.collection('Events').getOne(slug);
+      if(body.amount != undefined){
+        const event = await pb.collection('Events').getOne(body.eventId);
         const {
-            IndividualCost, GroupCost, TeamRequired, RegisteredCount, GroupMaximumSize
+          IndividualCost, GroupCost, TeamRequired, RegisteredCount, GroupMaximumSize, MaxRegistrants
         } = event;
-
+        
         //if too many people are registered, return an error
-        if(body.members.length + RegisteredCount > GroupMaximumSize){
+        if(body.members.length + RegisteredCount > MaxRegistrants){
           return new Response('Event is at capacity', { status: 400 });
         }
+        checkoutOptions.return_url = `${PUBLIC_WEB_URL}/donate/success?type=event&slug=${body.eventId}&team-id=${body.teamId}&session_id={CHECKOUT_SESSION_ID}`;
 
         let totalCost = TeamRequired ? GroupCost : IndividualCost * body.members.length;
-        if (totalCost !== body.totalCost) {
+        if (totalCost !== body.amount) {
             return new Response('Total cost does not match', { status: 400 });
         }
 
