@@ -29,6 +29,7 @@
     let isCheckingOut = false;
     let registrationDeadline = new Date();
     let paymentWindowOpen = false;
+    let myRegistrationId;
 
     async function openPaymentWindow() {
         paymentWindowOpen = true;
@@ -73,17 +74,21 @@
 
     async function initialize() {
         toastStore.trigger({message: 'Initializing payment...', classes: 'variant-filled-info'});
+        console.log("your team id is " + myRegistrationId);
         const response = await fetch("/api/donation/checkout/session", {
             method: "POST",
+
             headers: {
                 "Content-Type": "application/json",
             },
+
             body: JSON.stringify({
                 amount: price,
                 frequency: 0,
                 type: "event",
                 eventId: slug,
                 members: groupMembers,
+                teamId: myRegistrationId,
             }),
         });
 
@@ -135,20 +140,29 @@
                 email: email,
                 groupName: groupName,
                 members: groupMembers,
-                totalCost: price
+                totalCost: price,
+                teamId: slug,
             })
         })
-        .then(function(response){
+        .then(async function(response){
 
             if(!response.ok){
                 toastStore.trigger({message: 'Registration failed. Please try again later.', classes: 'variant-filled-error'});
             } else {
+                let res = await response.json();
+                myRegistrationId = res.id;
                 paymentWindowOpen = true;
                 openPaymentWindow();
             }
         })
-        .then(data => console.log(data))
-        .catch(error => toastStore.trigger({message: 'Registration failed. Please try again later.', classes: 'variant-filled-error'}) );
+        .then(function(data){
+            console.log("data is ");
+            console.log(data);
+        })
+        .catch(function(error) {
+            toastStore.trigger({message: 'Registration failed. Please try again later.', classes: 'variant-filled-error'}) 
+            console.log('Request failed', error);
+        });
 
 
 
@@ -160,6 +174,7 @@
 </script>
 
 <div class="form-container">
+    {#if !paymentWindowOpen}
     <form class="m-auto bg-gray-1000 w-3/4 md:w-1/3 rounded-lg text-white p-5" on:submit|preventDefault={handleSubmit}>
         <h1 class="text-2xl text-center font-bold">Event Registration</h1>
         
@@ -215,7 +230,7 @@
 
 
     </form>
-
+    {/if}
     {#if paymentWindowOpen}
     <div class="m-auto bg-gray-1000 w-3/4 md:w-1/3 rounded-lg text-white p-5 mt-5">
         <h1 class="text-2xl text-center font-bold">Payment</h1>

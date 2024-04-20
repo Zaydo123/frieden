@@ -1,6 +1,7 @@
 <script>
 
     import { onMount } from "svelte";
+    import { browser } from "$app/environment";
     let failure = false;
 
     let defaultEmail = "_____________________";
@@ -16,10 +17,18 @@
         let session;        
 
         try{
-            let response = await fetch(`/api/donation/checkout/session/status?session_id=${sessionId}`);
+            let response;
+            if(window.location.href.includes('team-id')){
+                if(browser){
+                    response = await fetch(`/api/donation/checkout/session/status?session_id=${sessionId}&team-id=${urlParams.get('team-id')}`);
+                }
+            } else {
+                response = await fetch(`/api/donation/checkout/session/status?session_id=${sessionId}`);
+            }            
             session = await response.json();
-            response.json();
+
         } catch (e) {
+            console.log(e);
             failure = true;
         }
 
