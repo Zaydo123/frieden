@@ -217,11 +217,11 @@
         <div class="flex items-center justify-between">
             {#if payButtonEnabled}
             <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200" type="submit">
-                Pay
+                Checkout
             </button>
             {:else}
             <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200 disabled:opacity-20" type="button" disabled>
-                Pay
+                Checkout
             </button>
             {/if}
 
