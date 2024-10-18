@@ -20,6 +20,18 @@
       image: "/home/components/meaningfulWork/bballTeam.jpeg",
     },
     {
+      title: "Financial Aid",
+      description:
+        "We firmly believe in giving back to communities in need. We provide financial aid to families and individuals who need it most in local communities and abroad.",
+      image: "/home/components/meaningfulWork/financial-aid.jpg",
+    },
+    {
+      title: "Ground Missions",
+      description:
+        "By participating in our ground missions which consist of distributing food, clothing, medical supplies, and conducting research, you can make a difference in the lives of those in need. Sign up to become a volunteer today!",
+      image: "/home/components/meaningfulWork/ground-mission.jpg",
+    },
+    {
       title: "Education",
       description:
         "We believe that education is the key to a brighter future. We are dedicated to providing educational resources and opportunities to those in need.",
@@ -37,6 +49,13 @@
         "We are dedicated to providing food security to those in need. We believe that everyone deserves access to quality food.",
       image: "/home/components/meaningfulWork/ukraine-food-drive.jpeg",
     },
+    {
+      title: "Career Development",
+      description:
+        "We aim to provide full and part-time paid service opportunities for individuals who are looking to make a difference in the world. Please apply to join our team today!",
+      image: "/home/components/meaningfulWork/career-development.jpg",
+    }
+
   ];
     
   let innerWidth = 0;
