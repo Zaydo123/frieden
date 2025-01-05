@@ -123,7 +123,7 @@
 
                 <!-- Dropdown for type of volunteer -->
                 <div class="field-box">
-                    <label for="typeOfVolunteer" class="block mb-2 text-sm font-medium text-gray-300">Type of Volunteer</label>
+                    <label for="typeOfVolunteer" class="block mb-2 text-sm font-medium text-gray-300">Application Type</label>
                     <select id="typeOfVolunteer" name="typeOfVolunteer" class="input-field" bind:value={form.ApplicationType}>
                         {#each volunteerTypes as volunteerType}
                             <option value={volunteerType}>{volunteerType}</option>
