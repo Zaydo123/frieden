@@ -6,8 +6,8 @@
     import "../app.css";    
     import {currentUser} from '$lib/pocketbase';
     import { initializeStores } from '@skeletonlabs/skeleton';
+    
     initializeStores();
-
 
     let isMenuOpen = false;
 
@@ -149,5 +149,5 @@
     <slot/>
 </div>
 
-<p class="text-center text-white text-xs mt-10">© 2024 Frieden Foundation</p>
+<p class="text-center text-white text-xs mt-10">© 2025 Frieden Foundation</p>
 
