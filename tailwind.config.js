@@ -1,31 +1,28 @@
 // @ts-check
-import { join } from 'path';
 
-// 1. Import the Skeleton plugin
-import { skeleton } from '@skeletonlabs/tw-plugin';
-import { friedenTheme } from './frieden-theme';
-
+// Import the Skeleton plugin using require syntax for better Docker compatibility
 /** @type {import('tailwindcss').Config} */
 export default {
-	// 2. Opt for dark mode to be handled via the class method
 	darkMode: 'class',
 	content: [
 		'./src/**/*.{html,js,svelte,ts}',
-		// 3. Append the path to the Skeleton package
-		join(require.resolve(
-			'@skeletonlabs/skeleton'),
-			'../**/*.{html,js,svelte,ts}'
-		)
+		'./node_modules/@skeletonlabs/skeleton/**/*.{html,js,svelte,ts}'
 	],
 	theme: {
 		extend: {},
 	},
-  plugins: [
-    skeleton({
-      themes: {
-        custom: [friedenTheme]
-      }
-    })
-  ]
+	plugins: [
+		// Use top-level await to import the plugin synchronously
+		...(() => {
+			const skeletonImport = require('@skeletonlabs/tw-plugin');
+			const friedenTheme = require('./frieden-theme.js');
+			return [
+				skeletonImport.skeleton({
+					themes: {
+						custom: [friedenTheme.friedenTheme]
+					}
+				})
+			];
+		})()
+	]
 }
-						
