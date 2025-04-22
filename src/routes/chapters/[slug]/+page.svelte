@@ -1,6 +1,6 @@
 <svelte:head>
     <title>Frieden Foundation | {data.chapter.Name} Application</title>
-    <meta name="description" content="Apply to join the {data.chapter.Name} chapter of Frieden Foundation!">
+    <meta name="description" content="Apply to the {data.chapter.Name} chapter of Frieden Foundation!">
     <meta name="keywords" content="{data.chapter.Name}, chapter application, Frieden Foundation">
 </svelte:head>
 
@@ -126,7 +126,7 @@
     
     <div class="w-full max-w-lg mx-auto p-8 rounded-xl bg-secondary-900 shadow-lg">
         <div class="mx-auto rounded-lg overflow-hidden">
-            <h2 class="text-center text-2xl font-bold text-white">Apply to Join</h2>
+            <h2 class="text-center text-2xl font-bold text-white">Apply</h2>
             <form action="" enctype="multipart/form-data" class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6" on:submit|preventDefault={sendApplication}>
                 <!-- Name Field -->
                 <div class="field-box md:col-span-2">
