@@ -1,4 +1,4 @@
-import { pb, currentUser } from '$lib/pocketbase';
+import { pb } from '$lib/pocketbase';
 import { env } from '$env/dynamic/private';
 
 
@@ -48,8 +48,7 @@ export async function POST({ request, params }) {
             return new Response('Group name required', { status: 400 });
         }
 
-        const authData = await pb.admins.authWithPassword(env.SECRET_PB_ADMIN_EMAIL, env.SECRET_PB_ADMIN_PASSWORD);
-        currentUser.set(authData);
+        await pb.collection('_superusers').authWithPassword(env.SECRET_PB_ADMIN_EMAIL, env.SECRET_PB_ADMIN_PASSWORD);
 
         let res = await pb.collection('EventRegistrations').create({
             Event: slug,
@@ -60,12 +59,12 @@ export async function POST({ request, params }) {
             Paid: false
         });
 
-        currentUser.set(null);
+        pb.authStore.clear();
         
 
         return new Response(`{"Registered":true, "id":"${res.id}"}`, { status: 200 });
     } catch (err) {
-
+        console.error('Registration error:', err);
         return new Response(err.message, { status: 400 });
     }
 

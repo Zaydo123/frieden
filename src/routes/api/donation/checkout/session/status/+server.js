@@ -1,6 +1,6 @@
 import {stripe} from '$lib/stripe';
 import { generateBasicHTTPError } from '$lib/helpers';
-import { pb, currentUser } from '$lib/pocketbase';
+import { pb } from '$lib/pocketbase';
 import { env } from '$env/dynamic/private';
 
 export async function GET ({request}) {
@@ -25,8 +25,7 @@ export async function GET ({request}) {
         if(session.status.includes('complete')){
             if(url.searchParams.has('team-id')){
                 let team_id = url.searchParams.get('team-id');
-                const authData = await pb.admins.authWithPassword(env.SECRET_PB_ADMIN_EMAIL, env.SECRET_PB_ADMIN_PASSWORD);
-                currentUser.set(authData);
+                await pb.collection('_superusers').authWithPassword(env.SECRET_PB_ADMIN_EMAIL, env.SECRET_PB_ADMIN_PASSWORD);
                 const {Paid, Event, Attendees} = await pb.collection('EventRegistrations').getOne(team_id);
                 if(Paid == false){
                     await pb.collection('Events').update(Event, {"RegisteredCount+": Attendees.length});
